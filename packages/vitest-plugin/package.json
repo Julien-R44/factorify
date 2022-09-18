@@ -1,0 +1,49 @@
+{
+  "name": "@julr/vitest-factorio-plugin",
+  "version": "0.0.0",
+  "description": "The Vitest plugin for Factorio",
+  "author": "Julien Ripouteau <julien@ripouteau.com>",
+  "license": "ISC",
+  "keywords": [
+    "vitest",
+    "vitest plugin",
+    "knex",
+    "factorio",
+    "model factory",
+    "faker"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "peerDependencies": {
+    "vitest": "^0.20.0"
+  },
+  "dependencies": {
+    "@julr/factorio": "link:../core"
+  },
+  "devDependencies": {
+    "knex": "^2.3.0",
+    "typescript": "^4.8.3",
+    "unbuild": "^0.8.11",
+    "vite": "^3.1.2",
+    "vitest": "^0.23.4"
+  }
+}
