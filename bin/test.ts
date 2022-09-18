@@ -1,10 +1,10 @@
 import { pathToFileURL } from 'node:url'
-import { defineFactorioConfig } from '@julr/factorio'
 import { expect } from '@japa/expect'
 import { specReporter } from '@japa/spec-reporter'
 import { configure, processCliArgs, run } from '@japa/runner'
 import { database } from '@julr/japa-database-plugin'
-import { connection } from '../tests-helpers/db.js'
+import { factorio } from '@julr/japa-factorio-plugin'
+import { connection, connectionConfig } from '../tests-helpers/db.js'
 
 /*
 |--------------------------------------------------------------------------
@@ -20,24 +20,19 @@ import { connection } from '../tests-helpers/db.js'
 | Please consult japa.dev/runner-config for the config docs.
 */
 
-const dbConfig = {
-  client: 'better-sqlite3',
-  useNullAsDefault: true,
-  connection: { filename: './test.sqlite' },
-}
-
-const disconnect = defineFactorioConfig({ database: dbConfig })
-
 configure({
   ...processCliArgs(process.argv.slice(2)),
   ...{
     files: ['tests/**/*.spec.ts'],
-    plugins: [database({ database: dbConfig }), expect()],
+    plugins: [
+      database({ database: connectionConfig }),
+      factorio({ database: connectionConfig }),
+      expect(),
+    ],
     reporters: [specReporter()],
     teardown: [
       async () => {
         await connection.destroy()
-        disconnect()
       },
     ],
     importer: (filePath) => import(pathToFileURL(filePath).href),

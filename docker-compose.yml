@@ -1,12 +1,35 @@
-# Postgres
+version: '3.4'
 services:
-  postgres:
-    image: postgres:12
+  mysql:
+    platform: linux/x86_64
+    image: mysql:8.0
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      MYSQL_DATABASE: japa
+      MYSQL_USER: japa
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
     ports:
-      - "5432:5432"
-    volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - '3306:3306'
+    expose:
+      - '3306'
+
+  pg:
+    image: postgres:11
+    environment:
+      POSTGRES_DB: japa
+      POSTGRES_USER: japa
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    expose:
+      - '5432'
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    expose:
+      - '1433'
+    environment:
+      SA_PASSWORD: 'arandom&233password'
+      ACCEPT_EULA: 'Y'

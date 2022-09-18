@@ -10,7 +10,11 @@ interface User {
 
 const UserFactory = defineFactory<Partial<User>>(({ faker }) => ({
   tableName: 'user',
-  fields: { email: faker.internet.email(), referralCode: faker.random.alphaNumeric(6) },
+  fields: {
+    id: faker.datatype.number(),
+    email: faker.internet.email(),
+    referralCode: faker.random.alphaNumeric(6),
+  },
 })).build()
 
 test.group('factorio', (group) => {
@@ -71,6 +75,7 @@ test.group('factorio', (group) => {
     const userFactory = defineFactory(({ faker }) => ({
       tableName: 'user',
       fields: {
+        id: faker.datatype.number(),
         email: faker.internet.email(),
         referralCode: faker.random.alphaNumeric(6),
       },
@@ -79,6 +84,7 @@ test.group('factorio', (group) => {
     const stableFactory = defineFactory(({ faker }) => ({
       tableName: 'stable',
       fields: {
+        id: faker.datatype.number(),
         name: faker.company.bs(),
         userId: () => userFactory.create(),
       },
@@ -95,6 +101,7 @@ test.group('factorio', (group) => {
     const userFactory = defineFactory<Partial<User>>(({ faker }) => ({
       tableName: 'user',
       fields: {
+        id: faker.datatype.number(),
         email: 'bonjour',
         referralCode: faker.random.alphaNumeric(6),
       },
