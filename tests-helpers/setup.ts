@@ -1,27 +1,27 @@
-import knex from 'knex'
-import type { Knex } from 'knex'
+import { defineFactory } from '@julr/factorio'
 
-export class DatabaseSetup {
-  private static client: Knex
+export const ProfileFactory = defineFactory(({ faker }) => ({
+  tableName: 'profile',
+  fields: {
+    age: faker.datatype.number(),
+    email: faker.internet.email(),
+  },
+}))
+  .state('old', () => ({ age: '150' }))
+  .state('admin', () => ({ email: 'admin@admin.com' }))
+  .build()
 
-  public static init(connectionString: string) {
-    this.client = knex({ client: 'pg', connection: { connectionString } })
-  }
+export const PostFactory = defineFactory(({ faker }) => ({
+  tableName: 'post',
+  fields: { title: faker.lorem.sentence() },
+}))
+  .state('nodeArticle', () => ({ title: 'NodeJS' }))
+  .build()
 
-  public static disconnect() {
-    return this.client.destroy()
-  }
-
-  public static async refreshDatabase() {
-    const tableNames = await this.client
-      .select('table_name')
-      .from('information_schema.tables')
-      .where('table_schema', 'public')
-      .andWhere('table_type', 'BASE TABLE')
-      .pluck('table_name')
-
-    for (const tableName of tableNames) {
-      await this.client.raw(`TRUNCATE TABLE "${tableName}" CASCADE`)
-    }
-  }
-}
+export const UserFactory = defineFactory<any>(({ faker }) => ({
+  tableName: 'user',
+  fields: { id: faker.datatype.number() },
+}))
+  .hasOne('profile', { foreignKey: 'user_id', localKey: 'id', factory: ProfileFactory })
+  .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: PostFactory })
+  .build()

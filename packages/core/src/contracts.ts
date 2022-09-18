@@ -1,3 +1,4 @@
+import type { Builder } from './builder.js'
 import type { FactoryModel } from './model'
 import type { faker } from '@faker-js/faker'
 import type { Knex } from 'knex'
@@ -35,3 +36,8 @@ export type FactoryExtractGeneric<
     ? States
     : Model
   : never
+
+/**
+ * Callback that must be passed to the `with` function.
+ */
+export type WithCallback = (builder: Builder<any>) => void

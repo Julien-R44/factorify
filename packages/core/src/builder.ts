@@ -3,7 +3,7 @@ import defu from 'defu'
 import humps from 'humps'
 import { factorioConfig } from './config'
 import type { FactoryModel } from './model'
-import type { FactoryExtractGeneric } from './contracts'
+import type { FactoryExtractGeneric, WithCallback } from './contracts'
 import type { Knex } from 'knex'
 
 const { camelizeKeys, decamelizeKeys } = humps
@@ -28,7 +28,7 @@ export class Builder<
   /**
    * Relationships to create
    */
-  private appliedRelationships: { name: string; count?: number }[] = []
+  private appliedRelationships: { name: string; count?: number; callback?: WithCallback }[] = []
 
   /**
    * Ensure a knex connection is alive
@@ -123,12 +123,14 @@ export class Builder<
    */
   private async createRelationships(models: Record<string, any>[]) {
     for (const relationship of this.appliedRelationships) {
-      const { name, count } = relationship
+      const { name, count, callback } = relationship
       const { factory, foreignKey, localKey, type } = this.factory.relations[name]!
+
+      if (callback) callback(factory)
 
       const mergeAttributes = models.reduce<any[]>((acc, model) => {
         for (let i = 0; i < (count || 1); i++) {
-          acc.push({ [foreignKey]: model[localKey] })
+          acc.push({ ...factory.mergeInput, [foreignKey]: model[localKey] })
         }
         return acc
       }, [])
@@ -180,14 +182,14 @@ export class Builder<
   /**
    * Apply a relationship
    */
-  public with(name: string, count = 1) {
+  public with(name: string, count = 1, callback?: WithCallback) {
     const relationship = this.factory.relations[name]
 
     if (!relationship) {
       throw new Error(`The relationship "${name}" does not exist on the factory`)
     }
 
-    this.appliedRelationships.push({ name, count })
+    this.appliedRelationships.push({ name, count, callback })
     return this
   }
 
