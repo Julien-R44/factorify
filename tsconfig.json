@@ -1,0 +1,36 @@
+{
+  "ts-node": {
+    "transpileOnly": true
+  },
+
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "useUnknownInCatchVariables": true,
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+
+    "paths": {
+      "@julr/factorio": ["./packages/core/src/index.ts"]
+    }
+  }
+}

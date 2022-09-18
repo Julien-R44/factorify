@@ -1,0 +1,45 @@
+{
+  "name": "@julr/factorio",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Julien Ripouteau <julien@ripouteau.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/Julien-R44",
+  "homepage": "https://github.com/Julien-R44/factorio#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julien-R44/factorio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Julien-R44/factorio/issues"
+  },
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.5.0",
+    "@types/humps": "^2.0.2",
+    "defu": "^6.1.0",
+    "humps": "^2.0.1",
+    "knex": "^2.3.0"
+  },
+  "devDependencies": {
+    "unbuild": "^0.8.11"
+  }
+}
