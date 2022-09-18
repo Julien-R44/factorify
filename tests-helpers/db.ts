@@ -44,16 +44,16 @@ export const setupDb = async () => {
     table.increments('id').primary()
     table.string('email')
     table.integer('age')
-    table.integer('user_id')
+    table.integer('user_id').unsigned()
 
-    table.foreign('user_id').references('user.id').onDelete('CASCADE')
+    table.foreign('user_id').references('id').inTable('user').onDelete('CASCADE')
   })
 
   await connection.schema.createTable('post', (table) => {
     table.increments('id').primary()
     table.string('title')
-    table.integer('user_id')
+    table.integer('user_id').unsigned()
 
-    table.foreign('user_id').references('user.id').onDelete('CASCADE')
+    table.foreign('user_id').references('id').inTable('user').onDelete('CASCADE')
   })
 }

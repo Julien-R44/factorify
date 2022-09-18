@@ -6,9 +6,9 @@ specifiers:
   '@japa/runner': ^2.2.1
   '@japa/spec-reporter': ^1.3.1
   '@julr/eslint-config': ^0.3.2
-  '@julr/factorio': link:./packages/core
-  '@julr/japa-database-plugin': ^1.0.3
-  '@julr/japa-factorio-plugin': link:./packages/japa-plugin
+  '@julr/factorio': link:packages\core
+  '@julr/japa-database-plugin': ^1.0.4
+  '@julr/japa-factorio-plugin': link:packages\japa-plugin
   '@types/node': ^18.7.18
   better-sqlite3: ^7.6.2
   bumpp: ^8.2.1
@@ -32,7 +32,7 @@ devDependencies:
   '@japa/spec-reporter': 1.3.1
   '@julr/eslint-config': 0.3.2_prdxvwpqz7ols7qpi4wzmubrfu
   '@julr/factorio': link:packages/core
-  '@julr/japa-database-plugin': 1.0.3_326n2ufkg7hzishnsgt5jjf5qy
+  '@julr/japa-database-plugin': 1.0.4_326n2ufkg7hzishnsgt5jjf5qy
   '@julr/japa-factorio-plugin': link:packages/japa-plugin
   '@types/node': 18.7.18
   better-sqlite3: 7.6.2
@@ -862,8 +862,8 @@ packages:
       - typescript
     dev: true
 
-  /@julr/japa-database-plugin/1.0.3_326n2ufkg7hzishnsgt5jjf5qy:
-    resolution: {integrity: sha512-LRfEFxuJ3XEDv0tXbbUy0LbssqXqEf2LmZ8X7ueunL0+Bse6YLJ7N8BZcPW6TUkmaLvqWJTG4gSjuahtKheNvQ==}
+  /@julr/japa-database-plugin/1.0.4_326n2ufkg7hzishnsgt5jjf5qy:
+    resolution: {integrity: sha512-emOHUmBVd3WAFuLtTmECx5DAwsjp/bhyfRTWRAoYgjna2UM/AZbXdGnfIuDTNlB/+dVno+z6IYTXE5Y0WZOA8Q==}
     engines: {node: '>=16'}
     dependencies:
       knex: 2.3.0_326n2ufkg7hzishnsgt5jjf5qy
