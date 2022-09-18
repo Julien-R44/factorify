@@ -117,17 +117,14 @@ In the above example
 Factory states allow you to define variations of your factories as states. For example: On a Post factory, you can have different states to represent published and draft posts.
 
 ```ts
-import Factory from '@ioc:Adonis/Lucid/Factory'
-import Post from 'App/Models/Post'
-
-export const PostFactory = Factory
-  .define(Post, ({ faker }) => {
-    return {
+export const PostFactory = defineFactory<Partial<Post>>(({ faker }) => ({
+    tableName: 'post',
+    fields: {
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraphs(4),
       status: 'DRAFT',
     }
-  })
+  }))
   .state('published', (attributes) => ({
     status: 'PUBLISHED', // 👈
   }))
@@ -143,4 +140,73 @@ await PostFactory.createMany(3)
 
 ## Relationships
 
-Soon to be implemented.
+Model factories makes it super simple to work with relationships. Consider the following example:
+
+```ts
+export const PostFactory = defineFactory<Partial<Post>>(({ faker }) => ({
+    tableName: 'post',
+    fields: {
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraphs(4),
+      status: 'DRAFT',
+    }
+  }))
+  .state('published', (attributes) => ({
+    status: 'PUBLISHED', // 👈
+  }))
+  .build()
+
+export const UserFactory = defineFactory<Partial<User>>(({ faker }) => ({
+    tableName: 'user',
+    fields: {
+      username: faker.internet.userName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    }
+  }))
+  .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: PostFactory }) // 👈
+  .build()
+```
+
+Now, you can create a `user` and its `posts` all together in one call.
+
+```ts
+const user = await UserFactory.with('posts', 3).create()
+user.posts.length // 3
+```
+
+### Applying relationship states
+
+You can also apply states on a relationship by passing a callback to the with method.
+
+```ts
+const user = await UserFactory
+  .with('posts', 3, (post) => post.apply('published'))
+  .create()
+```
+
+Similarly, if you want, you can create few posts with the published state and few without it.
+
+```ts
+const user = await UserFactory
+  .with('posts', 3, (post) => post.apply('published'))
+  .with('posts', 2)
+  .create()
+
+user.posts.length // 5
+```
+
+Finally, you can also create nested relationships. For example: Create a user with two posts and five comments for each post.
+
+```ts
+const user = await UserFactory
+  .with('posts', 2, (post) => post.with('comments', 5))
+  .create()
+```
+
+The followings are the available relationships:
+- `hasOne`
+- `hasMany`
+- `belongsTo` ( 🚧 coming soon )
+- `belongsToMany` ( 🚧 coming soon )
+- `manyToMany` ( 🚧 coming soon )
