@@ -4,24 +4,13 @@ import { defineFactory } from '@julr/factorio'
 import { DatabaseUtils } from '@julr/japa-database-plugin'
 import { setupDb } from '../tests-helpers/db.js'
 
-interface User {
-  [key: string]: any
-}
-
-const UserFactory = defineFactory<Partial<User>>(({ faker }) => ({
+const UserFactory = defineFactory<any>(({ faker }) => ({
   tableName: 'user',
-  fields: {
-    id: faker.datatype.number(),
-    email: faker.internet.email(),
-    referralCode: faker.random.alphaNumeric(6),
-  },
+  fields: { email: faker.internet.email(), password: faker.random.alphaNumeric(6) },
 })).build()
 
 test.group('factorio', (group) => {
-  group.setup(async () => {
-    await setupDb()
-  })
-
+  group.setup(() => setupDb())
   group.each.setup(() => DatabaseUtils.refreshDatabase())
 
   test('create one entity', async ({ database }) => {
@@ -40,8 +29,8 @@ test.group('factorio', (group) => {
   })
 
   test('merge many entities', async ({ expect, database }) => {
-    const users = await UserFactory.merge({ onboardingStep: 'bonjour' }).createMany(10)
-    for (const user of users) expect(user.onboardingStep).toBe('bonjour')
+    const users = await UserFactory.merge({ email: 'bonjour' }).createMany(10)
+    for (const user of users) expect(user.email).toBe('bonjour')
     await database.assertCount('user', 10)
   })
 
@@ -67,7 +56,7 @@ test.group('factorio', (group) => {
     expect(users.length).toBe(3)
 
     for (const user of users) {
-      expect(Object.keys(user)).toEqual(expect.arrayContaining(['id', 'email', 'referralCode']))
+      expect(Object.keys(user)).toEqual(expect.arrayContaining(['id', 'email', 'password']))
     }
   })
 
@@ -75,50 +64,48 @@ test.group('factorio', (group) => {
     const userFactory = defineFactory(({ faker }) => ({
       tableName: 'user',
       fields: {
-        id: faker.datatype.number(),
         email: faker.internet.email(),
-        referralCode: faker.random.alphaNumeric(6),
+        password: faker.random.alphaNumeric(6),
       },
     })).build()
 
-    const stableFactory = defineFactory(({ faker }) => ({
-      tableName: 'stable',
+    const postFactory = defineFactory(({ faker }) => ({
+      tableName: 'post',
       fields: {
-        id: faker.datatype.number(),
-        name: faker.company.bs(),
+        title: faker.company.bs(),
         userId: () => userFactory.create(),
       },
     })).build()
 
-    const stable = await stableFactory.create()
+    const post = await postFactory.create()
 
-    expect(stable.userId).toBeTruthy()
+    expect(post.userId).toBeTruthy()
     await database.assertCount('user', 1)
-    await database.assertCount('stable', 1)
+    await database.assertCount('post', 1)
   })
 
   test('factory with state', async ({ database }) => {
-    const userFactory = defineFactory<Partial<User>>(({ faker }) => ({
+    const userFactory = defineFactory<any>(({ faker }) => ({
       tableName: 'user',
       fields: {
-        id: faker.datatype.number(),
         email: 'bonjour',
-        referralCode: faker.random.alphaNumeric(6),
+        password: faker.random.alphaNumeric(6),
       },
     }))
       .state('businessUser', (attributes) => ({
-        isBusinessUser: true,
-        stripeId: attributes.email,
+        email: 'business@admin.com',
+        password: attributes.email,
       }))
       .state('admin', () => ({
         email: 'admin@admin.admin',
+        password: 'topsecret',
       }))
       .build()
 
     await userFactory.apply('businessUser').create()
-    await database.assertHas('user', { is_business_user: true, stripe_id: 'bonjour' })
+    await database.assertHas('user', { email: 'business@admin.com', password: 'bonjour' })
 
     await userFactory.apply('admin').create()
-    await database.assertHas('user', { email: 'admin@admin.admin', is_business_user: false })
+    await database.assertHas('user', { email: 'admin@admin.admin', password: 'topsecret' })
   })
 })

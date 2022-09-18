@@ -1,4 +1,4 @@
-import type { FactoryModel } from './index'
+import type { FactoryModel } from './model'
 import type { faker } from '@faker-js/faker'
 import type { Knex } from 'knex'
 

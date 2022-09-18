@@ -9,7 +9,7 @@ const credentials = {
 }
 
 const connectionConfigMap: { [key: string]: Knex.Config } = {
-  better_sqlite: { client: 'better-sqlite3', connection: { filename: 'test' } },
+  better_sqlite: { client: 'better-sqlite3', connection: { filename: 'test.sqlite' } },
   sqlite: { client: 'sqlite', connection: { filename: 'test' } },
   mysql: { client: 'mysql2', connection: { ...credentials, port: 3306 } },
   postgres: { client: 'pg', connection: { ...credentials, port: 5432 } },
@@ -30,21 +30,30 @@ export const connectionConfig = connectionConfigMap[process.env.DB || 'better_sq
 export const connection = knex(connectionConfig)
 
 export const setupDb = async () => {
+  await connection.schema.dropTableIfExists('profile')
+  await connection.schema.dropTableIfExists('post')
   await connection.schema.dropTableIfExists('user')
-  await connection.schema.dropTableIfExists('stable')
 
   await connection.schema.createTable('user', (table) => {
-    table.integer('id').primary()
+    table.increments('id').primary()
     table.string('email')
-    table.string('referral_code')
-    table.boolean('is_business_user').defaultTo(false)
-    table.string('stripe_id')
-    table.string('onboarding_step')
+    table.string('password')
   })
 
-  await connection.schema.createTable('stable', (table) => {
-    table.integer('id').primary()
-    table.string('name')
+  await connection.schema.createTable('profile', (table) => {
+    table.increments('id').primary()
+    table.string('email')
+    table.integer('age')
     table.integer('user_id')
+
+    table.foreign('user_id').references('user.id').onDelete('CASCADE')
+  })
+
+  await connection.schema.createTable('post', (table) => {
+    table.increments('id').primary()
+    table.string('title')
+    table.integer('user_id')
+
+    table.foreign('user_id').references('user.id').onDelete('CASCADE')
   })
 }

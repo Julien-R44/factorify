@@ -29,7 +29,7 @@ configure({
       factorio({ database: connectionConfig }),
       expect(),
     ],
-    reporters: [specReporter()],
+    reporters: [specReporter({ stackLinesCount: 2 })],
     teardown: [
       async () => {
         await connection.destroy()

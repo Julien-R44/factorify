@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import defu from 'defu'
 import humps from 'humps'
 import { factorioConfig } from './config'
-import type { FactoryModel } from './index'
+import type { FactoryModel } from './model'
 import type { FactoryExtractGeneric } from './contracts'
 import type { Knex } from 'knex'
 
@@ -24,6 +24,11 @@ export class Builder<
    * States to apply.
    */
   private appliedStates: Set<States> = new Set()
+
+  /**
+   * Relationships to create
+   */
+  private appliedRelationships: { name: string; count?: number }[] = []
 
   /**
    * Ensure a knex connection is alive
@@ -95,11 +100,56 @@ export class Builder<
   }
 
   /**
+   * Hydrate relationships into the models before returning them to
+   * the user
+   */
+  private hydrateRelationships(
+    models: Record<string, any>[],
+    type: string,
+    relationship: { name: string; count?: number },
+    relations: any[]
+  ) {
+    for (const model of models) {
+      if (type === 'has-one') {
+        model[relationship.name] = relations.shift()
+      } else if (type === 'has-many') {
+        model[relationship.name] = relations.splice(0, relationship.count || 1)
+      }
+    }
+  }
+
+  /**
+   * Persist relationships to database and return them
+   */
+  private async createRelationships(models: Record<string, any>[]) {
+    for (const relationship of this.appliedRelationships) {
+      const { name, count } = relationship
+      const { factory, foreignKey, localKey, type } = this.factory.relations[name]!
+
+      const mergeAttributes = models.reduce<any[]>((acc, model) => {
+        for (let i = 0; i < (count || 1); i++) {
+          acc.push({ [foreignKey]: model[localKey] })
+        }
+        return acc
+      }, [])
+
+      const relations = await factory
+        .merge(mergeAttributes)
+        .createMany((count || 1) * models.length)
+
+      this.hydrateRelationships(models, type, relationship, relations)
+    }
+  }
+
+  /**
    * Reset the builder to its initial state.
    */
   private resetBuilder() {
     this.mergeInput = []
     this.appliedStates = new Set()
+    this.appliedRelationships = []
+
+    Object.values(this.factory.relations).forEach((relation) => relation.factory.resetBuilder())
   }
 
   /**
@@ -128,6 +178,20 @@ export class Builder<
   }
 
   /**
+   * Apply a relationship
+   */
+  public with(name: string, count = 1) {
+    const relationship = this.factory.relations[name]
+
+    if (!relationship) {
+      throw new Error(`The relationship "${name}" does not exist on the factory`)
+    }
+
+    this.appliedRelationships.push({ name, count })
+    return this
+  }
+
+  /**
    * Create multiple models and persist them to the database.
    */
   public async createMany(count: number): Promise<Model[]> {
@@ -140,14 +204,26 @@ export class Builder<
       rows.push(this.factory.callback({ faker }).fields)
     }
 
+    /**
+     * Apply merge attributes, states, and computed fields before
+     * inserting
+     */
     rows = this.mergeAttributes(rows)
     rows = this.applyStates(rows)
     await this.unwrapComputedFields(rows)
 
+    /**
+     * Insert rows
+     */
     const res = await factorioConfig
       .knex!.insert(decamelizeKeys(rows))
       .into(tableName)
       .returning('*')
+
+    /**
+     * Create post relationships
+     */
+    await this.createRelationships(res)
 
     this.resetBuilder()
 
