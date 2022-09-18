@@ -13,6 +13,18 @@ Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and 
 
 🚧 **This is a work in progress. Package isn't published yet**
 
+## Table of Contents
+* [Features](#features)
+* [Installation](#installation)
+* [Integrations](#integrations)
+* [Defining database connection](#defining-database-connection)
+* [Creating factories](#creating-factories)
+* [Using factories](#using-factories)
+* [Merging attributes](#merging-attributes)
+* [Factory states](#factory-states)
+* [Relationships](#relationships)
+  + [Applying relationship states](#applying-relationship-states)
+
 ## Features
 - Support for multiple databases ( SQLite, Postgres, MySQL, MSSQL ... )
 - Integrations with [test runners](#integrations)
