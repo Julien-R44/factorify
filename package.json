@@ -45,13 +45,13 @@
     "access": "public"
   },
   "scripts": {
-    "build": "unbuild",
     "dev": "unbuild --stub",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
     "prepublishOnly": "pnpm build",
     "release": "bumpp --commit --push --tag && pnpm publish",
     "stub": "pnpm -r --filter=./packages/* --parallel run stub",
+    "build": "pnpm -r --filter=./packages/* run build",
     "test": "ts-node-esm bin/test.ts",
     "test:sqlite": "cross-env DB=sqlite pnpm test",
     "test:better_sqlite": "cross-env DB=better_sqlite pnpm test",
