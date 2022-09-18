@@ -13,8 +13,13 @@ Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and 
 
 🚧 **This is a work in progress. Package isn't published yet**
 
+## Features
+- Support for multiple databases ( SQLite, Postgres, MySQL, MSSQL ... )
+- Integrations with [test runners](#integrations)
+- Define variations of your model using [states](#factory-states)
+- Define [relations](#relationships)
+
 ## Table of Contents
-* [Features](#features)
 * [Installation](#installation)
 * [Integrations](#integrations)
 * [Defining database connection](#defining-database-connection)
@@ -24,12 +29,6 @@ Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and 
 * [Factory states](#factory-states)
 * [Relationships](#relationships)
   + [Applying relationship states](#applying-relationship-states)
-
-## Features
-- Support for multiple databases ( SQLite, Postgres, MySQL, MSSQL ... )
-- Integrations with [test runners](#integrations)
-- Define variations of your model using [states](#factory-states)
-- Define [relations](#relationships)
 
 ## Installation
   
@@ -42,6 +41,7 @@ pnpm install @julr/factorio
 Integrations for some test runners are available below :
 
 - [Japa](./packages/japa-plugin/)
+- [Vitest](./packages/vitest-plugin/) ( 🚧 Coming soon )
 
 ## Defining database connection
 
