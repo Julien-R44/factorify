@@ -72,6 +72,8 @@ await disconnect()
 
 This is useful when you want to cleanly disconnect from the database after all tests have been run.
 
+> **Note**: You don't need to do this manually if you are using a test runner integration.
+
 ## Creating factories
 
 ```ts
