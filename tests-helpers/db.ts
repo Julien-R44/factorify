@@ -33,6 +33,7 @@ export const setupDb = async () => {
   await connection.schema.dropTableIfExists('profile')
   await connection.schema.dropTableIfExists('post')
   await connection.schema.dropTableIfExists('user')
+  await connection.schema.dropTableIfExists('account')
 
   await connection.schema.createTable('user', (table) => {
     table.increments('id').primary()
@@ -52,6 +53,14 @@ export const setupDb = async () => {
   await connection.schema.createTable('post', (table) => {
     table.increments('id').primary()
     table.string('title')
+    table.integer('user_id').unsigned()
+
+    table.foreign('user_id').references('id').inTable('user').onDelete('CASCADE')
+  })
+
+  await connection.schema.createTable('account', (table) => {
+    table.increments('id').primary()
+    table.string('name')
     table.integer('user_id').unsigned()
 
     table.foreign('user_id').references('id').inTable('user').onDelete('CASCADE')
