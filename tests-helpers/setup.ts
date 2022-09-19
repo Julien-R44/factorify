@@ -22,13 +22,21 @@ export const UserFactory = defineFactory<any>(({ faker }) => ({
   tableName: 'user',
   fields: { id: faker.datatype.number() },
 }))
+  .state('easyPassword', () => ({ password: 'easy' }))
+  .state('easyEmail', () => ({ email: 'easy@easy.com' }))
   .hasOne('profile', { foreignKey: 'user_id', localKey: 'id', factory: ProfileFactory })
   .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: PostFactory })
   .build()
+
+export const AdminFactory = defineFactory(({ faker }) => ({
+  tableName: 'admin',
+  fields: { id: faker.datatype.number() },
+})).build()
 
 export const AccountFactory = defineFactory(({ faker }) => ({
   tableName: 'account',
   fields: { name: faker.commerce.productName() },
 }))
-  // .belongsTo('user', { foreignKey: 'user_id', localKey: 'id', factory: UserFactory })
+  .belongsTo('user', { foreignKey: 'user_id', localKey: 'id', factory: UserFactory })
+  .belongsTo('admin', { foreignKey: 'admin_id', localKey: 'id', factory: AdminFactory })
   .build()

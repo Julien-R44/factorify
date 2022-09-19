@@ -1,8 +1,8 @@
-import { Builder } from './builder'
+import { Builder } from './builder/builder'
 import type { DefineFactoryCallback, DefineStateCallback } from './contracts'
 
 interface HasOneMeta {
-  type: 'has-one' | 'has-many'
+  type: 'has-one' | 'has-many' | 'belongs-to'
   localKey: string
   foreignKey: string
   factory: Builder<any, any, any>
@@ -54,6 +54,14 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
    */
   public hasMany(name: string, meta: Omit<HasOneMeta, 'type'>) {
     this.relations[name] = { ...meta, type: 'has-many' }
+    return this
+  }
+
+  /**
+   * Add belongsTo relationship
+   */
+  public belongsTo(name: string, meta: Omit<HasOneMeta, 'type'>) {
+    this.relations[name] = { ...meta, type: 'belongs-to' }
     return this
   }
 
