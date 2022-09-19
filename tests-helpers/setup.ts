@@ -25,3 +25,10 @@ export const UserFactory = defineFactory<any>(({ faker }) => ({
   .hasOne('profile', { foreignKey: 'user_id', localKey: 'id', factory: ProfileFactory })
   .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: PostFactory })
   .build()
+
+export const AccountFactory = defineFactory(({ faker }) => ({
+  tableName: 'account',
+  fields: { name: faker.commerce.productName() },
+}))
+  .belongsTo('user', { foreignKey: 'user_id', localKey: 'id', factory: UserFactory })
+  .build()
