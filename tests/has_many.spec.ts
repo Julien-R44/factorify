@@ -66,4 +66,16 @@ test.group('HasMany', (group) => {
 
     await database.assertHas('post', { user_id: user.id, title: 'NodeJS' }, 10)
   })
+
+  test('With - merge array', async ({ database }) => {
+    const user = await UserFactory.with('posts', 10, (post) =>
+      post.merge([{ title: 'Rust' }, { title: 'AdonisJS' }])
+    ).create()
+
+    await database.assertCount('user', 1)
+    await database.assertCount('post', 10)
+
+    await database.assertHas('post', { user_id: user.id, title: 'Rust' }, 1)
+    await database.assertHas('post', { user_id: user.id, title: 'AdonisJS' }, 1)
+  })
 })

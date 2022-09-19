@@ -130,7 +130,12 @@ export class Builder<
 
       const mergeAttributes = models.reduce<any[]>((acc, model) => {
         for (let i = 0; i < (count || 1); i++) {
-          acc.push({ ...factory.mergeInput, [foreignKey]: model[localKey] })
+          let mergeInput = factory.mergeInput
+          if (Array.isArray(factory.mergeInput)) {
+            mergeInput = factory.getMergeAttributes(i)
+          }
+
+          acc.push({ ...mergeInput, [foreignKey]: model[localKey] })
         }
         return acc
       }, [])
