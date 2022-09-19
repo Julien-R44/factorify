@@ -32,8 +32,8 @@ export const connection = knex(connectionConfig)
 export const setupDb = async () => {
   await connection.schema.dropTableIfExists('profile')
   await connection.schema.dropTableIfExists('post')
-  await connection.schema.dropTableIfExists('user')
   await connection.schema.dropTableIfExists('account')
+  await connection.schema.dropTableIfExists('user')
 
   await connection.schema.createTable('user', (table) => {
     table.increments('id').primary()
