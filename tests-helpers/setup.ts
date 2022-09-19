@@ -30,5 +30,5 @@ export const AccountFactory = defineFactory(({ faker }) => ({
   tableName: 'account',
   fields: { name: faker.commerce.productName() },
 }))
-  .belongsTo('user', { foreignKey: 'user_id', localKey: 'id', factory: UserFactory })
+  // .belongsTo('user', { foreignKey: 'user_id', localKey: 'id', factory: UserFactory })
   .build()
