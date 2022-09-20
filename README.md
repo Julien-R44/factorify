@@ -11,7 +11,7 @@ Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and 
 
 > Have you ever written tests, in which the first 15-20 lines of each test are dedicated to just setting up the database state by using multiple models? With Factorio, you can extract all this set up to a dedicated file and then write the bare minimum code to set up the database state.
 
-🚧 **This is a work in progress. v1 is not ready, some features are missing** 🚧
+🚧 **This is a work in progress. v1 is not ready, some features are missing. Expect major API changes without following semver.** 🚧
 
 ## Features
 - Support for multiple databases ( SQLite, Postgres, MySQL, MSSQL ... )
