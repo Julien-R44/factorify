@@ -5,6 +5,8 @@ import type { Knex } from 'knex'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
+export type CasingStrategy = 'camel' | 'snake' | 'none'
+
 /**
  * Callback that must be passed to the `defineFactory` function.
  */
@@ -22,6 +24,25 @@ export type DefineStateCallback<T> = (attributes: T) => Partial<T>
  */
 export interface FactorioConfig {
   database: Knex.Config
+
+  /**
+   * Configure the casing conversion for the database operations
+   */
+  casing?: {
+    /**
+     * Casing to which the keys will be converted before inserting into the database
+     *
+     * Default: `snake`
+     */
+    insert: CasingStrategy
+
+    /**
+     * Casing to which the keys will be converted before returning
+     *
+     * Default: `camel`
+     */
+    return: CasingStrategy
+  }
 }
 
 /**

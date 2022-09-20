@@ -43,13 +43,15 @@ Integrations for some test runners are available below :
 - [Japa](./packages/japa-plugin/)
 - [Vitest](./packages/vitest-plugin/) ( 🚧 Coming soon )
 
-## Defining database connection
+## Defining configuration and database connection
 
 Before running your tests, you must initialize Factorio with your database configuration. 
 
 This must be done **BEFORE** creating models via Factorio. In general, you can use the setup files system provided by the test runners.
 
 ```ts
+import { defineFactorioConfig } from '@julr/factorio'
+
 const disconnect = defineFactorioConfig({ 
   // Can also specify a locale for faker
   locale: 'fr',
@@ -75,6 +77,23 @@ await disconnect()
 This is useful when you want to cleanly disconnect from the database after all tests have been run.
 
 > **Note**: You don't need to do this manually if you are using a test runner integration.
+
+### Casing Strategy
+You can also define a specific casing strategy. By default, Factorio convert all keys to `snake_case` before inserting the models into the database. And before returning the model, it converts all keys to `camelCase`.
+
+```ts
+import { defineFactorioConfig } from '@julr/factorio'
+
+defineFactorioConfig({
+  casing: {
+    // Convert all keys to snake_case before inserting into the database
+    insert: 'snake',
+
+    // Convert all keys to camelCase before returning the models
+    return: 'camel',
+  }
+})
+```
 
 ## Creating factories
 
