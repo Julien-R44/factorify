@@ -1,14 +1,12 @@
+import { faker } from '@faker-js/faker'
 import { Builder } from './builder/builder'
-import type { DefineFactoryCallback, DefineStateCallback } from './contracts'
-
-interface HasOneMeta {
-  type: 'has-one' | 'has-many' | 'belongs-to'
-  localKey: string
-  foreignKey: string
-  factory: Builder<any, any, any>
-}
-
-type RelationshipMeta = HasOneMeta
+import { RelationType } from './contracts'
+import type {
+  DefineFactoryCallback,
+  DefineStateCallback,
+  RelationshipMeta,
+  RelationshipMetaOptions,
+} from './contracts'
 
 export class FactoryModel<Model extends Record<string, any>, States extends string | null = null> {
   /**
@@ -30,6 +28,19 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
     this.callback = callback
   }
 
+  private addRelation(name: string, type: RelationType, meta: RelationshipMetaOptions) {
+    const { tableName } = this.callback({ faker })
+
+    this.relations[name] = {
+      foreignKey: `${tableName}_id`,
+      localKey: 'id',
+      ...meta,
+      type,
+    }
+
+    return this
+  }
+
   /**
    * Allows you to define a new state for the factory.
    */
@@ -44,25 +55,22 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
   /**
    * Add hasOne relationship
    */
-  public hasOne(name: string, meta: Omit<HasOneMeta, 'type'>) {
-    this.relations[name] = { ...meta, type: 'has-one' }
-    return this
+  public hasOne(name: string, meta: RelationshipMetaOptions) {
+    return this.addRelation(name, RelationType.HasOne, meta)
   }
 
   /**
    * Add hasMany relationship
    */
-  public hasMany(name: string, meta: Omit<HasOneMeta, 'type'>) {
-    this.relations[name] = { ...meta, type: 'has-many' }
-    return this
+  public hasMany(name: string, meta: RelationshipMetaOptions) {
+    return this.addRelation(name, RelationType.HasMany, meta)
   }
 
   /**
    * Add belongsTo relationship
    */
-  public belongsTo(name: string, meta: Omit<HasOneMeta, 'type'>) {
-    this.relations[name] = { ...meta, type: 'belongs-to' }
-    return this
+  public belongsTo(name: string, meta: RelationshipMetaOptions) {
+    return this.addRelation(name, RelationType.BelongsTo, meta)
   }
 
   /**
