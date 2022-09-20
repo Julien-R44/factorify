@@ -1,4 +1,6 @@
 import knex from 'knex'
+import { faker } from '@faker-js/faker'
+import type { UsableLocale } from '@faker-js/faker'
 import type { Knex } from 'knex'
 import type { FactorioConfig } from './contracts'
 
@@ -14,7 +16,9 @@ export const factorioConfig = {
  *
  * Returns a function that can be used to clean up the connection.
  */
-export const defineFactorioConfig = (options: FactorioConfig) => {
+export const defineFactorioConfig = (options: FactorioConfig & { locale?: UsableLocale }) => {
+  faker.locale = options.locale || faker.locale
+
   factorioConfig.knex = knex(options.database)
 
   return () => {
