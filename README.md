@@ -81,15 +81,13 @@ This is useful when you want to cleanly disconnect from the database after all t
 ```ts
 import type { User } from './my-user-interface.js'
 
-const UserFactory = defineFactory<Partial<User>>(({ faker }) => ({
-  tableName: 'user',
-  fields: { 
-    email: faker.internet.email(), 
-    referralCode: faker.random.alphaNumeric(6) 
-  },
+const UserFactory = defineFactory<Partial<User>>('user', ({ faker }) => ({
+  email: faker.internet.email(), 
+  referralCode: faker.random.alphaNumeric(6) 
 })).build()
 ```
 
+The first parameter must be the table name.
 Make sure that you return an object with all the required properties, otherwise the database will raise not null exceptions.
 
 ## Using factories
@@ -133,13 +131,10 @@ In the above example
 Factory states allow you to define variations of your factories as states. For example: On a Post factory, you can have different states to represent published and draft posts.
 
 ```ts
-export const PostFactory = defineFactory<Partial<Post>>(({ faker }) => ({
-    tableName: 'post',
-    fields: {
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraphs(4),
-      status: 'DRAFT',
-    }
+export const PostFactory = defineFactory<Partial<Post>>('post', ({ faker }) => ({
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraphs(4),
+    status: 'DRAFT',
   }))
   .state('published', (attributes) => ({
     status: 'PUBLISHED', // 👈
@@ -159,26 +154,20 @@ await PostFactory.createMany(3)
 Model factories makes it super simple to work with relationships. Consider the following example:
 
 ```ts
-export const PostFactory = defineFactory<Partial<Post>>(({ faker }) => ({
-    tableName: 'post',
-    fields: {
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraphs(4),
-      status: 'DRAFT',
-    }
+export const PostFactory = defineFactory<Partial<Post>>('post', ({ faker }) => ({
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraphs(4),
+    status: 'DRAFT',
   }))
   .state('published', (attributes) => ({
     status: 'PUBLISHED', // 👈
   }))
   .build()
 
-export const UserFactory = defineFactory<Partial<User>>(({ faker }) => ({
-    tableName: 'user',
-    fields: {
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    }
+export const UserFactory = defineFactory<Partial<User>>('user', ({ faker }) => ({
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
   }))
   .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: () => PostFactory }) // 👈
   .build()

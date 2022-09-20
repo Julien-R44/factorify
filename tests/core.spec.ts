@@ -4,9 +4,9 @@ import { defineFactory } from '@julr/factorio'
 import { DatabaseUtils } from '@julr/japa-database-plugin'
 import { setupDb } from '../tests-helpers/db.js'
 
-const UserFactory = defineFactory<any>(({ faker }) => ({
-  tableName: 'user',
-  fields: { email: faker.internet.email(), password: faker.random.alphaNumeric(6) },
+const UserFactory = defineFactory<any>('user', ({ faker }) => ({
+  email: faker.internet.email(),
+  password: faker.random.alphaNumeric(6),
 })).build()
 
 test.group('factorio', (group) => {
@@ -61,20 +61,14 @@ test.group('factorio', (group) => {
   })
 
   test('create entity with nested inline relationship', async ({ expect, database }) => {
-    const userFactory = defineFactory(({ faker }) => ({
-      tableName: 'user',
-      fields: {
-        email: faker.internet.email(),
-        password: faker.random.alphaNumeric(6),
-      },
+    const userFactory = defineFactory('user', ({ faker }) => ({
+      email: faker.internet.email(),
+      password: faker.random.alphaNumeric(6),
     })).build()
 
-    const postFactory = defineFactory(({ faker }) => ({
-      tableName: 'post',
-      fields: {
-        title: faker.company.bs(),
-        userId: () => userFactory.create(),
-      },
+    const postFactory = defineFactory('post', ({ faker }) => ({
+      title: faker.company.bs(),
+      userId: () => userFactory.create(),
     })).build()
 
     const post = await postFactory.create()
@@ -85,12 +79,9 @@ test.group('factorio', (group) => {
   })
 
   test('factory with state', async ({ database }) => {
-    const userFactory = defineFactory<any>(({ faker }) => ({
-      tableName: 'user',
-      fields: {
-        email: 'bonjour',
-        password: faker.random.alphaNumeric(6),
-      },
+    const userFactory = defineFactory<any>('user', ({ faker }) => ({
+      email: 'bonjour',
+      password: faker.random.alphaNumeric(6),
     }))
       .state('businessUser', (attributes) => ({
         email: 'business@admin.com',

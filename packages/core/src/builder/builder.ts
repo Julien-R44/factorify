@@ -131,16 +131,12 @@ export class Builder<
    */
   public async createMany(count: number): Promise<Model[]> {
     this.ensureFactoryConnectionIsSet(factorioConfig.knex)
-
     let models: Record<string, any>[] = []
-    const { tableName } = this.factory.callback({ faker })
 
     /**
      * Generate fields for each row by calling the factory callback
      */
-    for (let i = 0; i < count; i++) {
-      models.push(this.factory.callback({ faker }).fields)
-    }
+    models = Array.from({ length: count }).map(() => this.factory.callback({ faker }))
 
     /**
      * Apply merge attributes
@@ -167,7 +163,7 @@ export class Builder<
      */
     const res = await factorioConfig
       .knex!.insert(decamelizeKeys(models))
-      .into(tableName)
+      .into(this.factory.tableName)
       .returning('*')
 
     /**

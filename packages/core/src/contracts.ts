@@ -9,10 +9,7 @@ type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
  * Callback that must be passed to the `defineFactory` function.
  */
 export type DefineFactoryCallback<T> = (args: { faker: typeof faker }) => {
-  tableName: string
-  fields: {
-    [K in keyof T]: T[K] | (() => T[K] | Promise<T[K]>)
-  }
+  [K in keyof T]: T[K] | (() => T[K] | Promise<T[K]>)
 }
 
 /**
