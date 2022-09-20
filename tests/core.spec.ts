@@ -2,6 +2,7 @@
 import { test } from '@japa/runner'
 import { defineFactory } from '@julr/factorio'
 import { DatabaseUtils } from '@julr/japa-database-plugin'
+import { AccountFactory, UserFactory as BaseUserFactory } from '../tests-helpers/setup.js'
 import { setupDb } from '../tests-helpers/db.js'
 
 const UserFactory = defineFactory<any>('user', ({ faker }) => ({
@@ -98,5 +99,20 @@ test.group('factorio', (group) => {
 
     await userFactory.apply('admin').create()
     await database.assertHas('user', { email: 'admin@admin.admin', password: 'topsecret' })
+  })
+
+  test('cross reference', async ({ database }) => {
+    const account = await AccountFactory.with('user').create()
+
+    await database.assertHas('user', { id: account.userId })
+    await database.assertHas('account', { id: account.id })
+
+    const user = await BaseUserFactory.with('account').create()
+
+    await database.assertHas('user', { id: user.id })
+    await database.assertHas('account', { id: user.account.id })
+
+    await database.assertCount('user', 2)
+    await database.assertCount('account', 2)
   })
 })

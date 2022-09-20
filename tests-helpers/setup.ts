@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { defineFactory } from '@julr/factorio'
 
 export const ProfileFactory = defineFactory('profile', ({ faker }) => ({
@@ -14,22 +15,23 @@ export const PostFactory = defineFactory('post', ({ faker }) => ({
   .state('nodeArticle', () => ({ title: 'NodeJS' }))
   .build()
 
+export const AdminFactory = defineFactory('admin', ({ faker }) => ({
+  id: faker.datatype.number(),
+})).build()
+
 export const UserFactory = defineFactory<any>('user', ({ faker }) => ({
   id: faker.datatype.number(),
 }))
   .state('easyPassword', () => ({ password: 'easy' }))
   .state('easyEmail', () => ({ email: 'easy@easy.com' }))
-  .hasOne('profile', () => ProfileFactory, { foreignKey: 'user_id', localKey: 'id' })
-  .hasMany('posts', () => PostFactory, { foreignKey: 'user_id', localKey: 'id' })
+  .hasOne('profile', () => ProfileFactory)
+  .hasMany('posts', () => PostFactory)
+  .hasOne('account', () => AccountFactory)
   .build()
-
-export const AdminFactory = defineFactory('admin', ({ faker }) => ({
-  id: faker.datatype.number(),
-})).build()
 
 export const AccountFactory = defineFactory('account', ({ faker }) => ({
   name: faker.commerce.productName(),
 }))
-  .belongsTo('user', () => UserFactory, { foreignKey: 'user_id', localKey: 'id' })
-  .belongsTo('admin', () => AdminFactory, { foreignKey: 'admin_id', localKey: 'id' })
+  .belongsTo('user', () => UserFactory)
+  .belongsTo('admin', () => AdminFactory)
   .build()
