@@ -90,7 +90,7 @@ export class Builder<
     this.statesManager.reset()
     this.relationshipBuilder.reset()
 
-    Object.values(this.factory.relations).forEach((relation) => relation.factory.resetBuilder())
+    Object.values(this.factory.relations).forEach((relation) => relation.factory().resetBuilder())
   }
 
   /**

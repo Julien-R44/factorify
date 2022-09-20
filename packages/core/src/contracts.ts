@@ -72,7 +72,7 @@ export interface RelationshipMeta {
   /**
    * Reference to the relation factory
    */
-  factory: Builder<any, any, any>
+  factory: () => Builder<any, any, any>
 }
 
 export type RelationshipMetaOptions = Optional<
