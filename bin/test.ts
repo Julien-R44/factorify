@@ -26,7 +26,7 @@ configure({
     files: ['tests/**/*.spec.ts'],
     plugins: [
       database({ database: connectionConfig }),
-      factorio({ database: connectionConfig }),
+      factorio({ database: connectionConfig, locale: 'fr' }),
       expect(),
     ],
     reporters: [specReporter({ stackLinesCount: 2 })],

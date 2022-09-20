@@ -1,9 +1,8 @@
 import { defineFactorioConfig } from '@julr/factorio'
-import type { Knex } from 'knex'
 import type { PluginFn } from '@japa/runner'
 
-export function factorio({ database }: { database: Knex.Config }): PluginFn {
-  const disconnect = defineFactorioConfig({ database })
+export function factorio(options: Parameters<typeof defineFactorioConfig>[0]): PluginFn {
+  const disconnect = defineFactorioConfig(options)
 
   return async function (config) {
     config.teardown.push(disconnect)
