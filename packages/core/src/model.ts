@@ -33,10 +33,16 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
     this.callback = callback
   }
 
-  private addRelation(name: string, type: RelationType, meta: RelationshipMetaOptions) {
+  private addRelation(
+    name: string,
+    factory: RelationshipMeta['factory'],
+    type: RelationType,
+    meta?: RelationshipMetaOptions
+  ) {
     this.relations[name] = {
       foreignKey: `${this.tableName}_id`,
       localKey: 'id',
+      factory,
       ...meta,
       type,
     }
@@ -58,22 +64,22 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
   /**
    * Add hasOne relationship
    */
-  public hasOne(name: string, meta: RelationshipMetaOptions) {
-    return this.addRelation(name, RelationType.HasOne, meta)
+  public hasOne(name: string, cb: RelationshipMeta['factory'], meta?: RelationshipMetaOptions) {
+    return this.addRelation(name, cb, RelationType.HasOne, meta)
   }
 
   /**
    * Add hasMany relationship
    */
-  public hasMany(name: string, meta: RelationshipMetaOptions) {
-    return this.addRelation(name, RelationType.HasMany, meta)
+  public hasMany(name: string, cb: RelationshipMeta['factory'], meta?: RelationshipMetaOptions) {
+    return this.addRelation(name, cb, RelationType.HasMany, meta)
   }
 
   /**
    * Add belongsTo relationship
    */
-  public belongsTo(name: string, meta: RelationshipMetaOptions) {
-    return this.addRelation(name, RelationType.BelongsTo, meta)
+  public belongsTo(name: string, cb: RelationshipMeta['factory'], meta?: RelationshipMetaOptions) {
+    return this.addRelation(name, cb, RelationType.BelongsTo, meta)
   }
 
   /**

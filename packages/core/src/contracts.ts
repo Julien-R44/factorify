@@ -94,6 +94,6 @@ export interface RelationshipMeta {
 }
 
 export type RelationshipMetaOptions = Optional<
-  Omit<RelationshipMeta, 'type'>,
+  Omit<RelationshipMeta, 'type' | 'factory'>,
   'foreignKey' | 'localKey'
 >

@@ -19,8 +19,8 @@ export const UserFactory = defineFactory<any>('user', ({ faker }) => ({
 }))
   .state('easyPassword', () => ({ password: 'easy' }))
   .state('easyEmail', () => ({ email: 'easy@easy.com' }))
-  .hasOne('profile', { foreignKey: 'user_id', localKey: 'id', factory: () => ProfileFactory })
-  .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: () => PostFactory })
+  .hasOne('profile', () => ProfileFactory, { foreignKey: 'user_id', localKey: 'id' })
+  .hasMany('posts', () => PostFactory, { foreignKey: 'user_id', localKey: 'id' })
   .build()
 
 export const AdminFactory = defineFactory('admin', ({ faker }) => ({
@@ -30,6 +30,6 @@ export const AdminFactory = defineFactory('admin', ({ faker }) => ({
 export const AccountFactory = defineFactory('account', ({ faker }) => ({
   name: faker.commerce.productName(),
 }))
-  .belongsTo('user', { foreignKey: 'user_id', localKey: 'id', factory: () => UserFactory })
-  .belongsTo('admin', { foreignKey: 'admin_id', localKey: 'id', factory: () => AdminFactory })
+  .belongsTo('user', () => UserFactory, { foreignKey: 'user_id', localKey: 'id' })
+  .belongsTo('admin', () => AdminFactory, { foreignKey: 'admin_id', localKey: 'id' })
   .build()
