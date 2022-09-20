@@ -51,6 +51,8 @@ This must be done **BEFORE** creating models via Factorio. In general, you can u
 
 ```ts
 const disconnect = defineFactorioConfig({ 
+  // Can also specify a locale for faker
+  locale: 'fr',
   // See https://knexjs.org/guide/#configuration-options
   // for more information
   database: {
@@ -189,6 +191,10 @@ const user = await UserFactory.with('posts', 3).create()
 user.posts.length // 3
 ```
 
+Note that the `foreignKey` and `localKey` are optionals. If they are not defined, Factorio will try to guess them based upon the model name.
+
+By default, the `foreignKey` is `{tableName}_id` and the `localKey` is `id`.
+
 ### Applying relationship states
 
 You can also apply states on a relationship by passing a callback to the with method.
@@ -221,6 +227,5 @@ const user = await UserFactory
 The followings are the available relationships:
 - `hasOne`
 - `hasMany`
-- `belongsTo` ( 🚧 coming soon )
-- `belongsToMany` ( 🚧 coming soon )
+- `belongsTo`
 - `manyToMany` ( 🚧 coming soon )
