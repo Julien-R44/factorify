@@ -1,14 +1,12 @@
 import { faker } from '@faker-js/faker'
 import defu from 'defu'
-import humps from 'humps'
 import { factorioConfig } from '../config'
+import { convertCase } from '../utils'
 import { RelationshipBuilder } from './relationship_builder'
 import { StatesManager } from './states_manager'
 import type { FactoryModel } from '../model'
 import type { FactoryExtractGeneric, WithCallback } from '../contracts'
 import type { Knex } from 'knex'
-
-const { camelizeKeys, decamelizeKeys } = humps
 
 export class Builder<
   Factory extends FactoryModel<any, any>,
@@ -162,7 +160,7 @@ export class Builder<
      * Insert rows
      */
     const res = await factorioConfig
-      .knex!.insert(decamelizeKeys(models))
+      .knex!.insert(convertCase(models, factorioConfig.casing.insert))
       .into(this.factory.tableName)
       .returning('*')
 
@@ -178,6 +176,6 @@ export class Builder<
 
     this.resetBuilder()
 
-    return finalModels.map((model) => camelizeKeys(model)) as Model[]
+    return finalModels.map((model) => convertCase(model, factorioConfig.casing.return)) as Model[]
   }
 }

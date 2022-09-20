@@ -9,6 +9,10 @@ import type { FactorioConfig } from './contracts'
  */
 export const factorioConfig = {
   knex: null as Knex | null,
+  casing: {
+    insert: 'snake',
+    return: 'camel',
+  } as NonNullable<FactorioConfig['casing']>,
 }
 
 /**
@@ -20,6 +24,7 @@ export const defineFactorioConfig = (options: FactorioConfig & { locale?: Usable
   faker.locale = options.locale || faker.locale
 
   factorioConfig.knex = knex(options.database)
+  factorioConfig.casing = options.casing || factorioConfig.casing
 
   return () => {
     if (factorioConfig.knex) {
