@@ -81,19 +81,13 @@ test.group('HasMany', (group) => {
   })
 
   test('auto detect foreign and primary keys', async ({ database }) => {
-    const postFactory = defineFactory<any>(({ faker }) => ({
-      tableName: 'post',
-      fields: {
-        title: faker.company.bs(),
-      },
+    const postFactory = defineFactory<any>('post', ({ faker }) => ({
+      title: faker.company.bs(),
     })).build()
 
-    const userFactory = defineFactory<any>(({ faker }) => ({
-      tableName: 'user',
-      fields: {
-        email: faker.internet.email(),
-        password: faker.random.alphaNumeric(6),
-      },
+    const userFactory = defineFactory<any>('user', ({ faker }) => ({
+      email: faker.internet.email(),
+      password: faker.random.alphaNumeric(6),
     }))
       .hasMany('post', { factory: () => postFactory })
       .build()

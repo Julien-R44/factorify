@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import { Builder } from './builder/builder'
 import { RelationType } from './contracts'
 import type {
@@ -24,15 +23,19 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
    */
   public relations: Record<string, RelationshipMeta> = {}
 
-  constructor(callback: DefineFactoryCallback<Model>) {
+  /**
+   * The SQL table name for the model.
+   */
+  public tableName: string
+
+  constructor(tableName: string, callback: DefineFactoryCallback<Model>) {
+    this.tableName = tableName
     this.callback = callback
   }
 
   private addRelation(name: string, type: RelationType, meta: RelationshipMetaOptions) {
-    const { tableName } = this.callback({ faker })
-
     this.relations[name] = {
-      foreignKey: `${tableName}_id`,
+      foreignKey: `${this.tableName}_id`,
       localKey: 'id',
       ...meta,
       type,

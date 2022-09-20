@@ -7,6 +7,12 @@ export { defineFactorioConfig }
 /**
  * Define a new factory.
  */
-export function defineFactory<T extends Record<string, any>>(cb: DefineFactoryCallback<T>) {
-  return new FactoryModel<T>(cb) as Omit<FactoryModel<T>, 'callback' | 'states' | 'relations'>
+export function defineFactory<T extends Record<string, any>>(
+  table: string,
+  cb: DefineFactoryCallback<T>
+) {
+  return new FactoryModel<T>(table, cb) as Omit<
+    FactoryModel<T>,
+    'callback' | 'states' | 'relations'
+  >
 }
