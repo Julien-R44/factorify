@@ -23,6 +23,13 @@ export class Builder<
   }
 
   /**
+   * If the builder is at its initial state
+   */
+  // @ts-expect-error isReset is used in reset method.
+  // Take a look at the RelationshipMeta contract for more details about why.
+  private isReset = true
+
+  /**
    * The attributes that will be merged for the next created models.
    */
   private mergeInput: Partial<Model> | Partial<Model>[] = []
@@ -84,12 +91,16 @@ export class Builder<
   /**
    * Reset the builder to its initial state.
    */
-  private resetBuilder() {
+  private reset() {
+    this.isReset = true
     this.mergeInput = []
     this.statesManager.reset()
     this.relationshipBuilder.reset()
 
-    Object.values(this.factory.relations).forEach((relation) => relation.factory().resetBuilder())
+    Object.values(this.factory.relations).forEach((relation) => {
+      const factory = relation.factory()
+      if (factory.isReset === false) factory.reset()
+    })
   }
 
   /**
@@ -129,6 +140,7 @@ export class Builder<
    * Create multiple models and persist them to the database.
    */
   public async createMany(count: number): Promise<Model[]> {
+    this.isReset = false
     this.ensureFactoryConnectionIsSet(factorioConfig.knex)
     let models: Record<string, any>[] = []
 
@@ -175,7 +187,7 @@ export class Builder<
      */
     const finalModels = this.relationshipBuilder.postHydrate(res)
 
-    this.resetBuilder()
+    this.reset()
 
     return finalModels.map((model) => convertCase(model, factorioConfig.casing.return)) as Model[]
   }

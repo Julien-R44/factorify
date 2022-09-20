@@ -43,8 +43,9 @@ export class FactoryModel<
     type: RelationType,
     meta?: RelationshipMetaOptions
   ) {
+    const foreignKey = type === RelationType.BelongsTo ? `${name}_id` : `${this.tableName}_id`
     this.relations[name] = {
-      foreignKey: `${this.tableName}_id`,
+      foreignKey,
       localKey: 'id',
       factory,
       ...meta,

@@ -93,8 +93,14 @@ export interface RelationshipMeta {
 
   /**
    * Reference to the relation factory
+   *
+   * Note: Type is any because otherwise the circular dependency betweens
+   * two factories that are cross-referenced would totally break the type system.
+   *
+   * I don't know how to solve this problem yet. If you come up with a solution,
+   * or any ideas, please open a issue. Would be awesome to have this !
    */
-  factory: () => Builder<any, any, any>
+  factory: any
 }
 
 export type RelationshipMetaOptions = Optional<
