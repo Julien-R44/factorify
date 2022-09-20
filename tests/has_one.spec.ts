@@ -1,5 +1,6 @@
 import { test } from '@japa/runner'
 import { DatabaseUtils } from '@julr/japa-database-plugin'
+import { defineFactory } from '@julr/factorio'
 import { UserFactory } from '../tests-helpers/setup.js'
 import { setupDb } from '../tests-helpers/db.js'
 

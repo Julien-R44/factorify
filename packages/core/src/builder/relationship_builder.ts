@@ -1,6 +1,6 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-import type { FactoryModel } from '../model.js'
-import type { WithCallback } from '../contracts.js'
+import { RelationType } from '../contracts'
+import type { WithCallback } from '../contracts'
+import type { FactoryModel } from '../model'
 
 export class RelationshipBuilder {
   constructor(private factory: FactoryModel<any>) {}
@@ -27,11 +27,11 @@ export class RelationshipBuilder {
     relations: any[]
   ) {
     for (const model of models) {
-      if (type === 'has-one') {
+      if (type === RelationType.HasOne) {
         model[relationship.name] = relations.shift()
-      } else if (type === 'has-many') {
+      } else if (type === RelationType.HasMany) {
         model[relationship.name] = relations.splice(0, relationship.count || 1)
-      } else if (type === 'belongs-to') {
+      } else if (type === RelationType.BelongsTo) {
         model[relationship.name] = relations.shift()
       }
     }
@@ -44,10 +44,10 @@ export class RelationshipBuilder {
     return this.appliedRelationships.filter((relationship) => {
       const meta = this.factory.relations[relationship.name]!
       if (type === 'pre') {
-        return meta.type === 'belongs-to'
+        return meta.type === RelationType.BelongsTo
       }
 
-      return meta.type !== 'belongs-to'
+      return meta.type !== RelationType.BelongsTo
     })
   }
 

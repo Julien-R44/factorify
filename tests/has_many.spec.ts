@@ -1,5 +1,6 @@
 import { test } from '@japa/runner'
 import { DatabaseUtils } from '@julr/japa-database-plugin'
+import { defineFactory } from '@julr/factorio'
 import { UserFactory } from '../tests-helpers/setup.js'
 import { setupDb } from '../tests-helpers/db.js'
 
@@ -77,5 +78,30 @@ test.group('HasMany', (group) => {
 
     await database.assertHas('post', { user_id: user.id, title: 'Rust' }, 1)
     await database.assertHas('post', { user_id: user.id, title: 'AdonisJS' }, 1)
+  })
+
+  test('auto detect foreign and primary keys', async ({ database }) => {
+    const postFactory = defineFactory<any>(({ faker }) => ({
+      tableName: 'post',
+      fields: {
+        title: faker.company.bs(),
+      },
+    })).build()
+
+    const userFactory = defineFactory<any>(({ faker }) => ({
+      tableName: 'user',
+      fields: {
+        email: faker.internet.email(),
+        password: faker.random.alphaNumeric(6),
+      },
+    }))
+      .hasMany('post', { factory: postFactory })
+      .build()
+
+    const user = await userFactory.with('post', 5).create()
+
+    await database.assertCount('user', 1)
+    await database.assertCount('post', 5)
+    await database.assertHas('post', { user_id: user.id }, 5)
   })
 })
