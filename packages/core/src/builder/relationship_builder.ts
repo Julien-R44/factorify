@@ -61,17 +61,18 @@ export class RelationshipBuilder {
       const { name, count, callback } = relationship
       const { factory, foreignKey, localKey, type } = this.factory.relations[name]!
 
-      if (callback) callback(factory)
+      const factoryRef = factory()
+      if (callback) callback(factoryRef)
 
       const mergeAttributes = models.reduce<any[]>((acc, model) => {
         for (let i = 0; i < (count || 1); i++) {
-          const mergeInput = factory.getMergeAttributes(i)
+          const mergeInput = factoryRef.getMergeAttributes(i)
           acc.push({ ...mergeInput, [foreignKey]: model[localKey] })
         }
         return acc
       }, [])
 
-      const relations = await factory
+      const relations = await factoryRef
         .merge(mergeAttributes)
         .createMany((count || 1) * models.length)
 
@@ -89,9 +90,11 @@ export class RelationshipBuilder {
       const { name, count, callback } = relationship
       const { factory, foreignKey, localKey } = this.factory.relations[name]!
 
-      if (callback) callback(factory)
+      const factoryRef = factory()
 
-      const relations = await factory.createMany((count || 1) * models.length)
+      if (callback) callback(factoryRef)
+
+      const relations = await factoryRef.createMany((count || 1) * models.length)
       models.forEach((model, index) => (model[foreignKey] = relations[index][localKey]))
 
       this.preModels = this.preModels.concat({

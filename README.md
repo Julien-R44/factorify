@@ -180,7 +180,7 @@ export const UserFactory = defineFactory<Partial<User>>(({ faker }) => ({
       password: faker.internet.password(),
     }
   }))
-  .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: PostFactory }) // 👈
+  .hasMany('posts', { foreignKey: 'user_id', localKey: 'id', factory: () => PostFactory }) // 👈
   .build()
 ```
 

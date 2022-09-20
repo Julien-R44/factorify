@@ -95,7 +95,7 @@ test.group('HasMany', (group) => {
         password: faker.random.alphaNumeric(6),
       },
     }))
-      .hasMany('post', { factory: postFactory })
+      .hasMany('post', { factory: () => postFactory })
       .build()
 
     const user = await userFactory.with('post', 5).create()
