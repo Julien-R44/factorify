@@ -49,12 +49,16 @@ export interface FactorioConfig {
  * Extract generics from FactoryModel class
  */
 export type FactoryExtractGeneric<
-  Factory extends FactoryModel<any, any>,
-  Extracted extends 'states' | 'model'
-> = Factory extends FactoryModel<infer Model, infer States>
+  Factory extends FactoryModel<any, any, any>,
+  Extracted extends 'states' | 'model' | 'relationships'
+> = Factory extends FactoryModel<infer Model, infer States, infer Relationships>
   ? Extracted extends 'states'
     ? States
-    : Model
+    : Extracted extends 'model'
+    ? Model
+    : Extracted extends 'relationships'
+    ? Relationships
+    : never
   : never
 
 /**

@@ -11,7 +11,8 @@ import type { Knex } from 'knex'
 export class Builder<
   Factory extends FactoryModel<any, any>,
   Model extends Record<string, any> = FactoryExtractGeneric<Factory, 'model'>,
-  States = FactoryExtractGeneric<Factory, 'states'>
+  States = FactoryExtractGeneric<Factory, 'states'>,
+  Relationships = FactoryExtractGeneric<Factory, 'relationships'>
 > {
   private relationshipBuilder: RelationshipBuilder
   private statesManager: StatesManager<States>
@@ -119,8 +120,8 @@ export class Builder<
   /**
    * Apply a relationship
    */
-  public with(name: string, count = 1, callback?: WithCallback) {
-    this.relationshipBuilder.apply(name, count, callback)
+  public with(name: Relationships, count = 1, callback?: WithCallback) {
+    this.relationshipBuilder.apply(name as string, count, callback)
     return this
   }
 

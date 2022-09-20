@@ -7,7 +7,11 @@ import type {
   RelationshipMetaOptions,
 } from './contracts'
 
-export class FactoryModel<Model extends Record<string, any>, States extends string | null = null> {
+export class FactoryModel<
+  Model extends Record<string, any>,
+  States extends string | null = null,
+  Relationships extends string | null = null
+> {
   /**
    * Store the factory callback
    */
@@ -64,21 +68,33 @@ export class FactoryModel<Model extends Record<string, any>, States extends stri
   /**
    * Add hasOne relationship
    */
-  public hasOne(name: string, cb: RelationshipMeta['factory'], meta?: RelationshipMetaOptions) {
+  public hasOne<S extends string>(
+    name: S,
+    cb: RelationshipMeta['factory'],
+    meta?: RelationshipMetaOptions
+  ): FactoryModel<Model, States, Extract<Relationships | S, string>> {
     return this.addRelation(name, cb, RelationType.HasOne, meta)
   }
 
   /**
    * Add hasMany relationship
    */
-  public hasMany(name: string, cb: RelationshipMeta['factory'], meta?: RelationshipMetaOptions) {
+  public hasMany<S extends string>(
+    name: S,
+    cb: RelationshipMeta['factory'],
+    meta?: RelationshipMetaOptions
+  ): FactoryModel<Model, States, Extract<Relationships | S, string>> {
     return this.addRelation(name, cb, RelationType.HasMany, meta)
   }
 
   /**
    * Add belongsTo relationship
    */
-  public belongsTo(name: string, cb: RelationshipMeta['factory'], meta?: RelationshipMetaOptions) {
+  public belongsTo<S extends string>(
+    name: S,
+    cb: RelationshipMeta['factory'],
+    meta?: RelationshipMetaOptions
+  ): FactoryModel<Model, States, Extract<Relationships | S, string>> {
     return this.addRelation(name, cb, RelationType.BelongsTo, meta)
   }
 
