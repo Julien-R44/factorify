@@ -139,7 +139,7 @@ export class Builder<
      * Generate fields for each row by calling the factory callback
      */
     models = Array.from({ length: count }).map(() =>
-      this.factory.callback({ faker, isStub: false })
+      this.factory.callback({ faker, isStubbed: false })
     )
 
     /**

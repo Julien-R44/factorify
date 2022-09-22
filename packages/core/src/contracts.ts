@@ -10,7 +10,7 @@ export type CasingStrategy = 'camel' | 'snake' | 'none'
 /**
  * Callback that must be passed to the `defineFactory` function.
  */
-export type DefineFactoryCallback<T> = (args: { faker: typeof faker; isStub: boolean }) => {
+export type DefineFactoryCallback<T> = (args: { faker: typeof faker; isStubbed: boolean }) => {
   [K in keyof T]: T[K] | (() => T[K] | Promise<T[K]>)
 }
 
