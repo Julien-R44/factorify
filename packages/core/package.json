@@ -43,6 +43,7 @@
     "knex": "^2.3.0"
   },
   "devDependencies": {
+    "typescript": "^4.8.3",
     "unbuild": "^0.8.11"
   }
 }

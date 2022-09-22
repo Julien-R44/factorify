@@ -19,9 +19,26 @@ test.group('factorio', (group) => {
     await database.assertCount('user', 1)
   })
 
+  test('create one stubbed entity', async ({ database, expect }) => {
+    const user = await UserFactory.make()
+    await database.assertCount('user', 0)
+
+    expect(user).toHaveProperty('password')
+    expect(user).toHaveProperty('email')
+  })
+
   test('create many entities', async ({ database }) => {
     await UserFactory.createMany(10)
     await database.assertCount('user', 10)
+  })
+
+  test('create many stubbed entities', async ({ database, expect }) => {
+    const users = await UserFactory.makeMany(10)
+    await database.assertCount('user', 0)
+
+    expect(users).toHaveLength(10)
+    expect(users[0]).toHaveProperty('password')
+    expect(users[0]).toHaveProperty('email')
   })
 
   test('merge with one entity', async ({ database }) => {
@@ -29,10 +46,23 @@ test.group('factorio', (group) => {
     await database.assertHas('user', { email: 'bonjour@ok.com' })
   })
 
+  test('merge one entity stubbed', async ({ database, expect }) => {
+    const user = await UserFactory.merge({ email: 'bonjour@ok.com' }).make()
+    await database.assertCount('user', 0)
+
+    expect(user.email).toBe('bonjour@ok.com')
+  })
+
   test('merge many entities', async ({ expect, database }) => {
     const users = await UserFactory.merge({ email: 'bonjour' }).createMany(10)
     for (const user of users) expect(user.email).toBe('bonjour')
     await database.assertCount('user', 10)
+  })
+
+  test('merge many entities stubbed', async ({ expect, database }) => {
+    const users = await UserFactory.merge({ email: 'bonjour' }).makeMany(10)
+    for (const user of users) expect(user.email).toBe('bonjour')
+    await database.assertCount('user', 0)
   })
 
   test('merge many entities with sequence', async ({ database }) => {
@@ -45,6 +75,19 @@ test.group('factorio', (group) => {
     await database.assertHas('user', { email: 'first@ok.com' })
     await database.assertHas('user', { email: 'second@ok.com' })
     await database.assertHas('user', { email: 'third@ok.com' })
+  })
+
+  test('merge many entities with sequence stubbed', async ({ expect }) => {
+    const users = await UserFactory.merge([
+      { email: 'first@ok.com' },
+      { email: 'second@ok.com' },
+      { email: 'third@ok.com' },
+    ]).createMany(3)
+
+    expect(users).toHaveLength(3)
+    expect(users[0].email).toBe('first@ok.com')
+    expect(users[1].email).toBe('second@ok.com')
+    expect(users[2].email).toBe('third@ok.com')
   })
 
   test('createMany should return keys camelized', async ({ expect }) => {

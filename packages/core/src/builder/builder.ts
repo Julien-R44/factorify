@@ -112,15 +112,6 @@ export class Builder<
   }
 
   /**
-   * Create a new model and persist it to the database.
-   */
-  public async create(): Promise<Model> {
-    this.ensureFactoryConnectionIsSet(factorioConfig.knex)
-    const res = await this.createMany(1)
-    return res[0]!
-  }
-
-  /**
    * Apply a registered state
    */
   public apply(state: States) {
@@ -137,17 +128,19 @@ export class Builder<
   }
 
   /**
-   * Create multiple models and persist them to the database.
+   * Create the models. Either by persisting them to the database or
+   * by returning them as a plain object.
    */
-  public async createMany(count: number): Promise<Model[]> {
+  private async instantiateModels(count: number, stubbed: boolean) {
     this.isReset = false
-    this.ensureFactoryConnectionIsSet(factorioConfig.knex)
     let models: Record<string, any>[] = []
 
     /**
      * Generate fields for each row by calling the factory callback
      */
-    models = Array.from({ length: count }).map(() => this.factory.callback({ faker }))
+    models = Array.from({ length: count }).map(() =>
+      this.factory.callback({ faker, isStub: false })
+    )
 
     /**
      * Apply merge attributes
@@ -167,28 +160,66 @@ export class Builder<
     /**
      * We now create the belongsTo relationships
      */
-    await this.relationshipBuilder.createPre(models)
+    await this.relationshipBuilder.createPre(models, stubbed)
 
     /**
      * Insert rows
      */
-    const res = await factorioConfig
-      .knex!.insert(convertCase(models, factorioConfig.casing.insert))
-      .into(this.factory.tableName)
-      .returning('*')
+    let result: Record<string, any>[] = []
+
+    if (!stubbed) {
+      result = await factorioConfig
+        .knex!.insert(convertCase(models, factorioConfig.casing.insert))
+        .into(this.factory.tableName)
+        .returning('*')
+    } else {
+      result = models
+    }
 
     /**
      * Create post relationships
      */
-    await this.relationshipBuilder.createPost(res)
+    await this.relationshipBuilder.createPost(result, stubbed)
 
     /**
      * Hydrate pre relationships into the result
      */
-    const finalModels = this.relationshipBuilder.postHydrate(res)
+    const finalModels = this.relationshipBuilder.postHydrate(result)
 
     this.reset()
 
     return finalModels.map((model) => convertCase(model, factorioConfig.casing.return)) as Model[]
+  }
+
+  /**
+   * Create a model without persisting it to the database.
+   */
+  public async make(): Promise<Model> {
+    const res = await this.makeMany(1)
+    return res[0]!
+  }
+
+  /**
+   * Create models without persisting them to the database.
+   */
+  public async makeMany(count: number): Promise<Model[]> {
+    return this.instantiateModels(count, true)
+  }
+
+  /**
+   * Create a new model and persist it to the database.
+   */
+  public async create(): Promise<Model> {
+    this.ensureFactoryConnectionIsSet(factorioConfig.knex)
+    const res = await this.createMany(1)
+    return res[0]!
+  }
+
+  /**
+   * Create multiple models and persist them to the database.
+   */
+  public async createMany(count: number): Promise<Model[]> {
+    this.ensureFactoryConnectionIsSet(factorioConfig.knex)
+    return this.instantiateModels(count, false)
   }
 }

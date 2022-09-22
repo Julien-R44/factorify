@@ -17,6 +17,16 @@ test.group('HasMany', (group) => {
     await database.assertHas('post', { user_id: user.id }, 1)
   })
 
+  test('Basic stubbed', async ({ database, expect }) => {
+    const user = await UserFactory.with('posts').make()
+
+    await database.assertCount('user', 0)
+    await database.assertCount('post', 0)
+
+    expect(user.posts).toHaveLength(1)
+    expect(user.posts[0].userId).toEqual(user.id)
+  })
+
   test('With many', async ({ database }) => {
     const user = await UserFactory.with('posts', 2).create()
 

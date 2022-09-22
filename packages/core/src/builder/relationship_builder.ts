@@ -54,7 +54,7 @@ export class RelationshipBuilder {
   /**
    * Create post relationships ( hasOne, hasMany ), and persist them
    */
-  public async createPost(models: Record<string, any>[]) {
+  public async createPost(models: Record<string, any>[], stubbed = false) {
     const relationships = this.filterRelationshipsByType('post')
 
     for (const relationship of relationships) {
@@ -72,9 +72,10 @@ export class RelationshipBuilder {
         return acc
       }, [])
 
+      const method = stubbed ? 'makeMany' : 'createMany'
       const relations = await factoryRef
         .merge(mergeAttributes)
-        .createMany((count || 1) * models.length)
+        [method]((count || 1) * models.length)
 
       this.hydrateRelationships(models, type, relationship, relations)
     }
@@ -83,7 +84,7 @@ export class RelationshipBuilder {
   /**
    * Create pre relationships ( belongsTo ), and persist them
    */
-  public async createPre(models: Record<string, any>[]) {
+  public async createPre(models: Record<string, any>[], stubbed = false) {
     const relationships = this.filterRelationshipsByType('pre')
 
     for (const relationship of relationships) {
@@ -94,7 +95,8 @@ export class RelationshipBuilder {
 
       if (callback) callback(factoryRef)
 
-      const relations = await factoryRef.createMany((count || 1) * models.length)
+      const method = stubbed ? 'makeMany' : 'createMany'
+      const relations = await factoryRef[method]((count || 1) * models.length)
       models.forEach((model, index) => (model[foreignKey] = relations[index][localKey]))
 
       this.preModels = this.preModels.concat({
