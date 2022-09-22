@@ -29,6 +29,17 @@ test.group('HasOne', (group) => {
     await database.assertHas('profile', { user_id: users[1].id }, 1)
   })
 
+  test('with overloading', async ({ database }) => {
+    const user = await UserFactory.with('profile', (profile) =>
+      profile.merge({ email: 'hey@ok.com' })
+    ).create()
+
+    await database.assertCount('user', 1)
+    await database.assertCount('profile', 1)
+
+    await database.assertHas('profile', { user_id: user.id, email: 'hey@ok.com' }, 1)
+  })
+
   test('returns relationship', async ({ expect }) => {
     const user = await UserFactory.with('profile').create()
 

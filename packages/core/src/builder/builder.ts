@@ -122,8 +122,18 @@ export class Builder<
   /**
    * Apply a relationship
    */
-  public with(name: Relationships, count = 1, callback?: WithCallback) {
-    this.relationshipBuilder.apply(name as string, count, callback)
+  public with(name: Relationships, callback?: WithCallback): this
+  public with(name: Relationships, count: number, callback?: WithCallback): this
+  public with(
+    name: Relationships,
+    countOrCallback?: number | WithCallback,
+    callback?: WithCallback
+  ) {
+    if (typeof countOrCallback === 'function') {
+      this.relationshipBuilder.apply(name as string, 1, countOrCallback)
+    } else {
+      this.relationshipBuilder.apply(name as string, countOrCallback || 1, callback)
+    }
     return this
   }
 
