@@ -1,6 +1,6 @@
 {
   "name": "@julr/japa-factorio-plugin",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "The Japa plugin for Factorio",
   "author": "Julien Ripouteau <julien@ripouteau.com>",
   "license": "ISC",
@@ -33,13 +33,12 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
-    "@japa/runner": "^2.0.0"
-  },
-  "dependencies": {
-    "@julr/factorio": "link:../core"
+    "@japa/runner": "^2.0.0",
+    "@julr/factorio": "^1.0.0-beta.0"
   },
   "devDependencies": {
     "@japa/runner": "^2.2.1",
+    "@julr/factorio": "link:../core",
     "knex": "^2.3.0",
     "typescript": "^4.8.3",
     "unbuild": "^0.8.11"
