@@ -1,6 +1,6 @@
 {
   "name": "@julr/japa-factorify-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Japa plugin for Factorify",
   "author": "Julien Ripouteau <julien@ripouteau.com>",
   "license": "ISC",
