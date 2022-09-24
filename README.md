@@ -18,6 +18,7 @@ Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and 
 - Integrations with [test runners](#integrations)
 - Define variations of your model using [states](#factory-states)
 - Define [relations](#relationships)
+- Generate in-memory instances
 
 ## Table of Contents
 * [Installation](#installation)
@@ -237,3 +238,18 @@ The followings are the available relationships:
 - `hasMany`
 - `belongsTo`
 - `manyToMany` ( 🚧 coming soon )
+
+## Stubbing models
+
+In some cases, you may prefer to stub out the database calls and just want to create in-memory model instances. This is can achieved using the `make` and `makeMany` methods.
+
+```ts
+const user = await UserFactory
+  .with('posts', 2)
+  .make()
+
+console.log(user.id)
+```
+
+The `make` calls will never hit the database and will assign an in-memory numeric id to the model instances.
+
