@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { defineFactory } from '@julr/factorio'
+import type { Builder } from '@julr/factorio'
 
 export const ProfileFactory = defineFactory('profile', ({ faker }) => ({
   age: faker.datatype.number(),
@@ -27,11 +28,17 @@ export const UserFactory = defineFactory<any>('user', ({ faker }) => ({
   .hasOne('profile', () => ProfileFactory)
   .hasMany('posts', () => PostFactory)
   .hasOne('account', () => AccountFactory)
-  .build()
+  .build() as Builder<any, any>
 
 export const AccountFactory = defineFactory('account', ({ faker }) => ({
   name: faker.commerce.productName(),
 }))
   .belongsTo('user', () => UserFactory)
   .belongsTo('admin', () => AdminFactory)
+  .build()
+
+export const TestFactory = defineFactory('account', ({ faker }) => ({
+  name: faker.commerce.productName(),
+}))
+  .hasOne('admin', () => AdminFactory)
   .build()

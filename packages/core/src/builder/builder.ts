@@ -25,8 +25,6 @@ export class Builder<
   /**
    * If the builder is at its initial state
    */
-  // @ts-expect-error isReset is used in reset method.
-  // Take a look at the RelationshipMeta contract for more details about why.
   private isReset = true
 
   /**

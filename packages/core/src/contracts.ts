@@ -100,7 +100,7 @@ export interface RelationshipMeta {
    * I don't know how to solve this problem yet. If you come up with a solution,
    * or any ideas, please open a issue. Would be awesome to have this !
    */
-  factory: any
+  factory: () => Builder<any, any, any>
 }
 
 export type RelationshipMetaOptions = Optional<
