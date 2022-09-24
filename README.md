@@ -3,13 +3,13 @@
 </p>
 
 
-# @julr/factorio
+# @julr/factorify
 
 Framework-agnostic model factory system for clean testing. 
 
 Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and **heavily** inspired by [Adonis.js](https://adonisjs.com/) and [Laravel](https://laravel.com/).
 
-> Have you ever written tests, in which the first 15-20 lines of each test are dedicated to just setting up the database state by using multiple models? With Factorio, you can extract all this set up to a dedicated file and then write the bare minimum code to set up the database state.
+> Have you ever written tests, in which the first 15-20 lines of each test are dedicated to just setting up the database state by using multiple models? With Factorify, you can extract all this set up to a dedicated file and then write the bare minimum code to set up the database state.
 
 ## Features
 - Support for multiple databases ( SQLite, Postgres, MySQL, MSSQL ... )
@@ -32,7 +32,7 @@ Built-on top of [Knex](https://knexjs.org) + [Faker](https://fakerjs.dev/), and 
 ## Installation
   
 ```bash
-pnpm install @julr/factorio
+pnpm install @julr/factorify
 ```
 
 ## Integrations
@@ -44,14 +44,14 @@ Integrations for some test runners are available below :
 
 ## Defining configuration and database connection
 
-Before running your tests, you must initialize Factorio with your database configuration. 
+Before running your tests, you must initialize Factorify with your database configuration. 
 
-This must be done **BEFORE** creating models via Factorio. In general, you can use the setup files system provided by the test runners.
+This must be done **BEFORE** creating models via Factorify. In general, you can use the setup files system provided by the test runners.
 
 ```ts
-import { defineFactorioConfig } from '@julr/factorio'
+import { defineFactorifyConfig } from '@julr/factorify'
 
-const disconnect = defineFactorioConfig({ 
+const disconnect = defineFactorifyConfig({ 
   // Can also specify a locale for faker
   locale: 'fr',
   // See https://knexjs.org/guide/#configuration-options
@@ -62,7 +62,7 @@ const disconnect = defineFactorioConfig({
       host: 'localhost',
       user: 'root',
       password: 'password',
-      database: 'factorio',
+      database: 'factorify',
     } 
   }
 })
@@ -71,19 +71,19 @@ const disconnect = defineFactorioConfig({
 await disconnect()
 ```
 
-`defineFactorioConfig` returns a function that can be used to disconnect from the database. 
+`defineFactorifyConfig` returns a function that can be used to disconnect from the database. 
 
 This is useful when you want to cleanly disconnect from the database after all tests have been run.
 
 > **Note**: You don't need to do this manually if you are using a test runner integration.
 
 ### Casing Strategy
-You can also define a specific casing strategy. By default, Factorio convert all keys to `snake_case` before inserting the models into the database. And before returning the model, it converts all keys to `camelCase`.
+You can also define a specific casing strategy. By default, Factorify convert all keys to `snake_case` before inserting the models into the database. And before returning the model, it converts all keys to `camelCase`.
 
 ```ts
-import { defineFactorioConfig } from '@julr/factorio'
+import { defineFactorifyConfig } from '@julr/factorify'
 
-defineFactorioConfig({
+defineFactorifyConfig({
   casing: {
     // Convert all keys to snake_case before inserting into the database
     insert: 'snake',
@@ -198,7 +198,7 @@ const user = await UserFactory.with('posts', 3).create()
 user.posts.length // 3
 ```
 
-Note that the `foreignKey` and `localKey` are optionals. If they are not defined, Factorio will try to guess them based upon the model name.
+Note that the `foreignKey` and `localKey` are optionals. If they are not defined, Factorify will try to guess them based upon the model name.
 
 By default, the `foreignKey` is `{tableName}_id` and the `localKey` is `id`.
 

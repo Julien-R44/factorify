@@ -30,8 +30,8 @@
     "isolatedModules": true,
 
     "paths": {
-      "@julr/factorio": ["./packages/core/src/index.ts"],
-      "@julr/japa-factorio-plugin": ["./packages/japa-plugin/src/index.ts"]
+      "@julr/factorify": ["./packages/core/src/index.ts"],
+      "@julr/japa-factorify-plugin": ["./packages/japa-plugin/src/index.ts"]
     }
   }
 }

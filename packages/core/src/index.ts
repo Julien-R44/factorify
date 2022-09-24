@@ -1,9 +1,9 @@
-import { defineFactorioConfig } from './config'
+import { defineFactorifyConfig } from './config'
 import { FactoryModel } from './model'
 import type { Builder } from './builder/builder'
 import type { DefineFactoryCallback } from './contracts'
 
-export { defineFactorioConfig, FactoryModel, Builder }
+export { defineFactorifyConfig, FactoryModel, Builder }
 
 /**
  * Define a new factory.

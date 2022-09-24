@@ -1,5 +1,5 @@
 {
-  "name": "@julr/factorio-monorepo",
+  "name": "@julr/factorify-monorepo",
   "type": "module",
   "version": "1.0.0-beta.4",
   "packageManager": "pnpm@7.11.0",
@@ -68,9 +68,9 @@
     "@japa/runner": "^2.2.1",
     "@japa/spec-reporter": "^1.3.1",
     "@julr/eslint-config": "^0.3.2",
-    "@julr/factorio": "link:packages\\core",
+    "@julr/factorify": "link:packages\\core",
     "@julr/japa-database-plugin": "^1.0.4",
-    "@julr/japa-factorio-plugin": "link:packages\\japa-plugin",
+    "@julr/japa-factorify-plugin": "link:packages\\japa-plugin",
     "@types/node": "^18.7.18",
     "better-sqlite3": "^7.6.2",
     "bumpp": "^8.2.1",

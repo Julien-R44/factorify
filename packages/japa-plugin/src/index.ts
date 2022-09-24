@@ -1,8 +1,8 @@
-import { defineFactorioConfig } from '@julr/factorio'
+import { defineFactorifyConfig } from '@julr/factorify'
 import type { PluginFn } from '@japa/runner'
 
-export function factorio(options: Parameters<typeof defineFactorioConfig>[0]): PluginFn {
-  const disconnect = defineFactorioConfig(options)
+export function factorify(options: Parameters<typeof defineFactorifyConfig>[0]): PluginFn {
+  const disconnect = defineFactorifyConfig(options)
 
   return async function (config) {
     config.teardown.push(disconnect)

@@ -2,14 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   '@japa/runner': ^2.2.1
-  '@julr/factorio': link:../core
+  '@julr/factorify': link:../core
   knex: ^2.3.0
   typescript: ^4.8.3
   unbuild: ^0.8.11
 
 devDependencies:
   '@japa/runner': 2.2.1
-  '@julr/factorio': link:../core
+  '@julr/factorify': link:../core
   knex: 2.3.0
   typescript: 4.8.3
   unbuild: 0.8.11

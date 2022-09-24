@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import defu from 'defu'
-import { factorioConfig } from '../config'
+import { factorifyConfig } from '../config'
 import { convertCase } from '../utils'
 import { RelationshipBuilder } from './relationship_builder'
 import { StatesManager } from './states_manager'
@@ -176,8 +176,8 @@ export class Builder<
     let result: Record<string, any>[] = []
 
     if (!stubbed) {
-      result = await factorioConfig
-        .knex!.insert(convertCase(models, factorioConfig.casing.insert))
+      result = await factorifyConfig
+        .knex!.insert(convertCase(models, factorifyConfig.casing.insert))
         .into(this.factory.tableName)
         .returning('*')
     } else {
@@ -196,7 +196,7 @@ export class Builder<
 
     this.reset()
 
-    return finalModels.map((model) => convertCase(model, factorioConfig.casing.return)) as Model[]
+    return finalModels.map((model) => convertCase(model, factorifyConfig.casing.return)) as Model[]
   }
 
   /**
@@ -218,7 +218,7 @@ export class Builder<
    * Create a new model and persist it to the database.
    */
   public async create(): Promise<Model> {
-    this.ensureFactoryConnectionIsSet(factorioConfig.knex)
+    this.ensureFactoryConnectionIsSet(factorifyConfig.knex)
     const res = await this.createMany(1)
     return res[0]!
   }
@@ -227,7 +227,7 @@ export class Builder<
    * Create multiple models and persist them to the database.
    */
   public async createMany(count: number): Promise<Model[]> {
-    this.ensureFactoryConnectionIsSet(factorioConfig.knex)
+    this.ensureFactoryConnectionIsSet(factorifyConfig.knex)
     return this.instantiateModels(count, false)
   }
 }

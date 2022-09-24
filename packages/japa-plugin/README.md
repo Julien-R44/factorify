@@ -1,11 +1,11 @@
-# @julr/japa-factorio-plugin
+# @julr/japa-factorify-plugin
 
-The Japa plugin for Factorio.
+The Japa plugin for Factorify.
 
 ## Installation
 
 ```bash
-pnpm add @julr/japa-factorio-plugin
+pnpm add @julr/japa-factorify-plugin
 ```
 
 ```ts
@@ -15,7 +15,7 @@ configure({
   ...processCliArgs(process.argv.slice(2)),
   ...{
     plugins: [
-      factorio({
+      factorify({
         database: {
           // See https://knexjs.org/guide/#configuration-options
           // for more information
@@ -23,7 +23,7 @@ configure({
             host: 'localhost',
             user: 'root',
             password: 'password',
-            database: 'factorio',
+            database: 'factorify',
           } 
         },
       }),

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { defineFactory } from '@julr/factorio'
-import type { Builder } from '@julr/factorio'
+import { defineFactory } from '@julr/factorify'
+import type { Builder } from '@julr/factorify'
 
 export const ProfileFactory = defineFactory('profile', ({ faker }) => ({
   age: faker.datatype.number(),

@@ -1,17 +1,17 @@
 {
-  "name": "@julr/factorio",
+  "name": "@julr/factorify",
   "version": "1.0.0",
   "description": "",
   "author": "Julien Ripouteau <julien@ripouteau.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/Julien-R44",
-  "homepage": "https://github.com/Julien-R44/factorio#readme",
+  "homepage": "https://github.com/Julien-R44/factorify#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Julien-R44/factorio.git"
+    "url": "git+https://github.com/Julien-R44/factorify.git"
   },
   "bugs": {
-    "url": "https://github.com/Julien-R44/factorio/issues"
+    "url": "https://github.com/Julien-R44/factorify/issues"
   },
   "keywords": [],
   "sideEffects": false,

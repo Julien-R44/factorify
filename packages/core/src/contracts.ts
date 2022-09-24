@@ -20,9 +20,9 @@ export type DefineFactoryCallback<T> = (args: { faker: typeof faker; isStubbed: 
 export type DefineStateCallback<T> = (attributes: T) => Partial<T>
 
 /**
- * The Factorio configuration.
+ * The Factorify configuration.
  */
-export interface FactorioConfig {
+export interface FactorifyConfig {
   database: Knex.Config
 
   /**

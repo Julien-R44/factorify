@@ -1,3 +1,3 @@
-# @julr/factorio
+# @julr/factorify
 
-The Factorio core package.
+The Factorify core package.

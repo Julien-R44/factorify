@@ -3,7 +3,7 @@ import { expect } from '@japa/expect'
 import { specReporter } from '@japa/spec-reporter'
 import { configure, processCliArgs, run } from '@japa/runner'
 import { database } from '@julr/japa-database-plugin'
-import { factorio } from '@julr/japa-factorio-plugin'
+import { factorify } from '@julr/japa-factorify-plugin'
 import { connection, connectionConfig } from '../tests-helpers/db.js'
 
 /*
@@ -26,7 +26,7 @@ configure({
     files: ['tests/**/*.spec.ts'],
     plugins: [
       database({ database: connectionConfig }),
-      factorio({ database: connectionConfig, locale: 'fr' }),
+      factorify({ database: connectionConfig, locale: 'fr' }),
       expect(),
     ],
     reporters: [specReporter({ stackLinesCount: 2 })],

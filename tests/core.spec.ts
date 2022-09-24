@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { test } from '@japa/runner'
-import { defineFactory } from '@julr/factorio'
+import { defineFactory } from '@julr/factorify'
 import { DatabaseUtils } from '@julr/japa-database-plugin'
 import { AccountFactory, UserFactory as BaseUserFactory } from '../tests-helpers/setup.js'
 import { setupDb } from '../tests-helpers/db.js'
@@ -10,7 +10,7 @@ const UserFactory = defineFactory<any>('user', ({ faker }) => ({
   password: faker.random.alphaNumeric(6),
 })).build()
 
-test.group('factorio', (group) => {
+test.group('factorify', (group) => {
   group.setup(() => setupDb())
   group.each.setup(() => DatabaseUtils.refreshDatabase())
 
