@@ -43,4 +43,33 @@ Since Factorify is built on top of Knex, see more information about the database
 
 The plugin will automatically open, and close the database connection after the tests are done.
 
+## @julr/japa-database-plugin
 
+I recommend you to also use the [@julr/japa-database-plugin](https://github.com/Julien-R44/japa-database-plugin) that extend the Japa matchers with new assertions for the database. Also provide an utility function that allow you to refresh your database between each test :
+
+```ts{5-6,16-18}
+import { test } from '@japa/runner'
+import { DatabaseUtils } from '@julr/japa-database-plugin'
+
+test.group('My group', group => {
+  // 👇 Refresh the database between each test
+  group.each.setup(() => DatabaseUtils.refreshDatabase()) 
+
+  test('Should return user', async ({ database, client }) => {
+    const user = await UserFactory.merge({ email: 'test@factorify.com' }).create()
+
+    const response = await client.get('/users')
+    
+    response.assertStatus(200)
+    response.assertBody([user])
+
+    // 👇 Simple assertions on the database.
+    await database.assertCount('users', 1)
+    await database.assertHas('users', { email: 'test@factorify.com' })
+  })
+})
+```
+
+
+
+More information here : https://github.com/Julien-R44/japa-database-plugin
