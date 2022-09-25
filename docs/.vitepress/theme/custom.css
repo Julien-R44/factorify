@@ -1,3 +1,7 @@
+.dark .VPNav .content {
+  background-color: var(--background-color) !important;
+}
+
 img {
   border-radius: 7px;
 }
