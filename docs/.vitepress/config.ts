@@ -2,10 +2,19 @@ import { defineConfig } from 'vitepress'
 
 
 export default defineConfig({
+  lang: 'en-US',
   title: 'Factorify',
-  description: 'Just playing around.',
+  description: 'Node.js framework-agnostic model factories for clean testing',
 
-  head: [['link', { rel: 'icon', href: '/logo.png' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/logo.png' }],
+    [
+      'meta',
+      { name: 'twitter:image', content: 'https://factorify.julr.dev/banner.png', }
+    ],
+    ['meta', { name: 'twitter:site', content: '@julien_rpt' }],
+    ['meta', { name: 'twitter:card', content: 'summary' }],
+  ],
 
   themeConfig: {
     siteTitle: 'Factorify',
@@ -44,6 +53,12 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/julien-r44/factorify/' },
       { icon: 'twitter', link: 'https://twitter.com/julien_rpt' }
     ],
+
+
+    editLink: {
+      text: 'Edit this page on GitHub',
+      pattern: 'https://github.com/Julien-R44/factorify/tree/main/docs/:path'
+    },
 
     outline: 'deep'
   }
