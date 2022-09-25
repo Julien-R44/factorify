@@ -1,3 +1,5 @@
+@import url(https://fonts.bunny.net/css?family=tomorrow:400,600);
+
 .dark .VPNav .content {
   background-color: var(--background-color) !important;
 }
@@ -86,7 +88,7 @@ img {
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-font-family-base: 'Inter var experimental', 'Inter var', ui-sans-serif,
+  --vp-font-family-base: 'Tomorrow', 'Inter var experimental', 'Inter var', ui-sans-serif,
     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
