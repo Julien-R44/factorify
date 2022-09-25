@@ -2,6 +2,15 @@
   background-color: var(--background-color) !important;
 }
 
+.VPSidebar {
+  width: auto !important;
+  padding-left: 32px !important;
+}
+
+.container {
+  max-width: none !important;
+}
+
 img {
   border-radius: 7px;
 }
