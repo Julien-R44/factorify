@@ -9,7 +9,13 @@ export default defineConfig({
 
   themeConfig: {
     siteTitle: 'Factorify',
-    logo: '../public/logo.png',
+    logo: '/logo.png',
+
+
+    nav: [
+      { text: 'Release Notes', link: 'https://github.com/Julien-R44/factorify/releases' },
+      { text: 'Sponsoring', link: 'https://github.com/sponsors/Julien-R44' },
+    ],
 
     sidebar: [
       {
