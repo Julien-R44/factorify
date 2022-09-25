@@ -1,0 +1,82 @@
+img {
+  border-radius: 7px;
+}
+
+/**
+* Colors Theme
+* -------------------------------------------------------------------------- */
+
+:root {
+  --background-color: #191919;
+}
+
+:root {
+  --vp-c-bg: var(--vp-c-white);
+  --vp-c-bg-soft: var(--vp-c-white-soft);
+  --vp-c-bg-mute: var(--vp-c-white-mute);
+  --vp-c-bg-alt: var(--vp-c-white-soft);
+
+  --vp-c-divider: var(--vp-c-divider-light-1);
+  --vp-c-divider-light: var(--vp-c-divider-light-2);
+
+  --vp-c-divider-inverse: var(--vp-c-divider-dark-1);
+  --vp-c-divider-inverse-light: var(--vp-c-divider-dark-2);
+
+  --vp-c-text-1: var(--vp-c-text-light-1);
+  --vp-c-text-2: var(--vp-c-text-light-2);
+  --vp-c-text-3: var(--vp-c-text-light-3);
+  --vp-c-text-4: var(--vp-c-text-light-4);
+
+  --vp-c-text-inverse-1: var(--vp-c-text-dark-1);
+  --vp-c-text-inverse-2: var(--vp-c-text-dark-2);
+  --vp-c-text-inverse-3: var(--vp-c-text-dark-3);
+  --vp-c-text-inverse-4: var(--vp-c-text-dark-4);
+
+  --vp-c-text-code: var(--vp-c-indigo-soft);
+
+  --vp-c-brand: #ff8a00;
+  --vp-c-brand-light: #ff8a00;
+  --vp-c-brand-lighter: #ff8a00;
+  --vp-c-brand-dark: #ff8a00;
+  --vp-c-brand-darker: #ff8a00;
+
+  --vp-c-sponsor: #fd1d7c;
+}
+
+.dark {
+  --vp-c-bg: var(--background-color);
+  --vp-c-bg-soft: var(--background-color);
+  --vp-c-bg-mute: var(--background-color);
+  --vp-c-bg-alt: #141414;
+
+  --vp-c-divider: var(--vp-c-divider-dark-1);
+  --vp-c-divider-light: var(--vp-c-divider-dark-2);
+
+  --vp-c-divider-inverse: var(--vp-c-divider-light-1);
+  --vp-c-divider-inverse-light: var(--vp-c-divider-light-2);
+
+  --vp-c-text-1: var(--vp-c-text-dark-1);
+  --vp-c-text-2: var(--vp-c-text-dark-2);
+  --vp-c-text-3: var(--vp-c-text-dark-3);
+  --vp-c-text-4: var(--vp-c-text-dark-4);
+
+  --vp-c-text-inverse-1: var(--vp-c-text-light-1);
+  --vp-c-text-inverse-2: var(--vp-c-text-light-2);
+  --vp-c-text-inverse-3: var(--vp-c-text-light-3);
+  --vp-c-text-inverse-4: var(--vp-c-text-light-4);
+
+  --vp-c-text-code: var(--vp-c-indigo-lighter);
+}
+
+/**
+ * Typography
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-font-family-base: 'Inter var experimental', 'Inter var', ui-sans-serif,
+    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
+}

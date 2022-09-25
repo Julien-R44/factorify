@@ -1,0 +1,19 @@
+{
+  "name": "@julr/factorify-docs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "author": "Julien Ripouteau <julien@ripouteau.com>",
+  "license": "ISC",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:serve": "vitepress serve"
+  },
+  "devDependencies": {
+    "vitepress": "1.0.0-alpha.16",
+    "vue": "^3.2.39"
+  }
+}
