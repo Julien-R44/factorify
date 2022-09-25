@@ -1,6 +1,6 @@
 # What is Factorify ?
 
-![Factorify](../assets/intro.png)
+![Factorify](./assets/intro.png)
 
 Have you ever written tests, in which the first 15-20 lines of each test are dedicated to just setting up the database state by using multiple models? With Factorify, you can extract all this set up to a dedicated file and then write the bare minimum code to set up the database state.
 
