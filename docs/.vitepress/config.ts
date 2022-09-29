@@ -49,6 +49,12 @@ export default defineConfig({
       },
     ],
 
+    algolia: {
+      appId: 'E5R26D6CBG',
+      apiKey: '7b5cac7aac51ad74667bb0ecbc376f8e',
+      indexName: 'factorify',
+    },
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/julien-r44/factorify/' },
       { icon: 'twitter', link: 'https://twitter.com/julien_rpt' }
