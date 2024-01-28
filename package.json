@@ -7,13 +7,13 @@
   "author": "Julien Ripouteau <julien@ripouteau.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/Julien-R44",
-  "homepage": "https://github.com/Julien-R44/[name]#readme",
+  "homepage": "https://github.com/Julien-R44/factorify#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Julien-R44/[name].git"
+    "url": "git+https://github.com/Julien-R44/factorify.git"
   },
   "bugs": {
-    "url": "https://github.com/Julien-R44/[name]/issues"
+    "url": "https://github.com/Julien-R44/factorify/issues"
   },
   "keywords": [],
   "sideEffects": false,
@@ -39,7 +39,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"
